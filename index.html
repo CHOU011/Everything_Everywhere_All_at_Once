@@ -76,7 +76,8 @@ em.en{font-family:var(--serif);font-style:italic}
 
 /* ============ 果树（浅色） ============ */
 #treeHint{font-family:var(--mono);font-size:12px;letter-spacing:.32em;opacity:.5;margin-bottom:1.2vh;position:relative;z-index:2;animation:breathe 3s ease-in-out infinite}
-#treeCv{width:min(92vw,540px);height:min(56vh,440px);cursor:pointer;touch-action:manipulation;position:relative;z-index:2}
+#treeCv{width:min(92vw,540px);height:min(56vh,440px);cursor:pointer;touch-action:manipulation;position:relative;z-index:2;transform-origin:50% 97%;animation:sway 7s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-0.5deg)}50%{transform:rotate(0.6deg)}}
 #fruitQuote{position:relative;z-index:2;min-height:84px;max-width:520px;opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
 #fruitQuote.show{opacity:1;transform:none}
 .treeline{position:relative;z-index:2;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;line-height:2.1;opacity:.55;margin-top:2.4vh;max-width:520px}
@@ -146,7 +147,7 @@ em.en{font-family:var(--serif);font-style:italic}
   .pill{width:160px;height:70px;border-radius:35px}
 }
 @media (prefers-reduced-motion:reduce){
-  .pill,.scroll-hint,.tiny-hint,#treeHint{animation:none!important}
+  .pill,.scroll-hint,.tiny-hint,#treeHint,#treeCv{animation:none!important}
 }
 </style>
 <noscript><style>#s2 .para{opacity:1!important;transform:none!important}</style></noscript>
@@ -253,10 +254,10 @@ em.en{font-family:var(--serif);font-style:italic}
       <button class="gate-opt" data-r="0" data-t="躺着确实舒服，但这道题不这么答。">念头没什么用，躺着就好</button>
     </div>
     <div id="gateOath" hidden>
-      <p class="gate-oath">你只有一次机会。<br>要么接受，<em>要么从0开始</em>——<br>忘记一切吧，忘记规则的框架，<br>放开手脚，从头开始！</p>
+      <p class="gate-oath">你只有一次机会。<br>要么接受，<em>要么从 0 开始</em>——<br>忘记一切吧，忘记规则的框架，<br>放开手脚，从头开始！</p>
       <div class="gate-btns">
         <button class="btn" id="gateAccept" style="color:var(--ink)">我接受</button>
-        <button class="btn btn-solid" id="gateReset">从0开始</button>
+        <button class="btn btn-solid" id="gateReset">从 0 开始</button>
       </div>
       <p class="gate-note">药丸不可更换，但宇宙允许重来</p>
     </div>
@@ -561,22 +562,71 @@ var tree = {
     this.branches = []; this.fruits = [];
     var w = this.w, h = this.h;
     var self = this;
+    // 自然树生成：不对称分裂 + 弧线枝条 + 偶发单枝延伸
     function grow(x, y, ang, len, wid, depth, tBirth){
-      if (depth > 7 || len < 6) {
-        if (Math.random() < 0.5) self.fruits.push({ x: x, y: y, r: 3 + Math.random() * 2.2, born: tBirth, picked: false });
+      if (depth > 9 || len < 5) {
+        // 深层末梢才结果
+        if (depth >= 3 && Math.random() < 0.55) self.fruits.push({ x: x, y: y, r: 2.6 + Math.random() * 2, born: tBirth, picked: false });
         return;
       }
-      var x2 = x + Math.cos(ang) * len;
-      var y2 = y + Math.sin(ang) * len;
-      self.branches.push({ x1: x, y1: y, x2: x2, y2: y2, wid: wid, born: tBirth });
-      var spread = 0.42 + Math.random() * 0.2;
-      var n = (depth < 2) ? 2 : (Math.random() < 0.85 ? 2 : 3);
-      for (var i = 0; i < n; i++){
-        var off = (i - (n - 1) / 2) * spread;
-        grow(x2, y2, ang + off + (Math.random() - 0.5) * 0.18, len * (0.68 + Math.random() * 0.1), wid * 0.68, depth + 1, tBirth + 1);
+      // 段内自然弯曲：出口角度偏移，弦线用贝塞尔弧
+      var bend = (Math.random() - 0.5) * 0.26;
+      var ang2 = ang + bend * 0.5;
+      var x2 = x + Math.cos(ang2) * len;
+      var y2 = y + Math.sin(ang2) * len;
+      // 控制点：垂直于弦线偏移 → 弧形枝
+      var mx = (x + x2) / 2, my = (y + y2) / 2;
+      var nx = -(y2 - y), ny = (x2 - x);
+      var nl = Math.sqrt(nx * nx + ny * ny) || 1;
+      var bow = bend * len * 0.55;
+      self.branches.push({ x1: x, y1: y, cx: mx + (nx / nl) * bow, cy: my + (ny / nl) * bow, x2: x2, y2: y2, wid: wid, born: tBirth });
+
+      // 分裂策略：主延续枝（小偏移·长） + 侧枝（大偏移·短），方向随机
+      var r = Math.random();
+      var side = Math.random() < 0.5 ? 1 : -1;
+      var mainAng = ang2 + side * (0.06 + Math.random() * 0.2);
+      var mainLen = len * (0.72 + Math.random() * 0.12);
+      var sideAng = ang2 - side * (0.38 + Math.random() * 0.34);
+      var sideLen = len * (0.5 + Math.random() * 0.18);
+      var nextW = wid * 0.7;
+
+      if (depth >= 1 && r < 0.14) {
+        // 单枝延伸：不分裂（打破二叉对称的关键）
+        grow(x2, y2, ang2 + (Math.random() - 0.5) * 0.2, mainLen, nextW, depth + 1, tBirth + 1);
+      } else {
+        grow(x2, y2, mainAng, mainLen, nextW, depth + 1, tBirth + 1);
+        grow(x2, y2, sideAng, sideLen, nextW * 0.92, depth + 1, tBirth + 1);
+        // 偶发第三枝（中深层才有，避免爆炸）
+        if (r > 0.87 && depth >= 2 && depth <= 5) {
+          grow(x2, y2, ang2 + side * (0.5 + Math.random() * 0.3), sideLen * 0.8, nextW * 0.8, depth + 1, tBirth + 1);
+        }
       }
     }
-    grow(w / 2, h * 0.96, -Math.PI / 2, h * 0.23, Math.max(w, 200) * 0.02, 0, 0);
+    // 主干从底部出发，初始角度稍歪一点点
+    grow(w / 2, h * 0.97, -Math.PI / 2 + 0.06, h * 0.2, Math.max(w, 200) * 0.024, 0, 0);
+    // 记录最大出生序（生长动画的时间轴长度）
+    this.maxBorn = 0;
+    for (var i = 0; i < this.branches.length; i++){
+      if (this.branches[i].born > this.maxBorn) this.maxBorn = this.branches[i].born;
+    }
+    // 生成根系：主干基部向下分出 3~4 条弧形短根（不参与递归，深度固定）
+    this.roots = [];
+    var rx = w / 2, ry = h * 0.97;
+    var rootN = 3 + (Math.random() < 0.5 ? 1 : 0);
+    for (var ri = 0; ri < rootN; ri++){
+      var spread = (ri / (rootN - 1) - 0.5) * 2;          // -1 ~ 1 均布
+      var rang = Math.PI / 2 + spread * (0.5 + Math.random() * 0.25); // 向下扇形
+      var rlen = h * (0.03 + Math.random() * 0.035);       // 短根
+      var rbend = (Math.random() - 0.5) * 0.5;
+      var rang2 = rang + rbend * 0.5;
+      var x2r = rx + Math.cos(rang2) * rlen;
+      var y2r = ry + Math.sin(rang2) * rlen;
+      var mxx = (rx + x2r) / 2, myy = (ry + y2r) / 2;
+      var nxr = -(y2r - ry), nyr = (x2r - rx);
+      var nlr = Math.sqrt(nxr * nxr + nyr * nyr) || 1;
+      var bowr = rbend * rlen * 0.55;
+      this.roots.push({ x1: rx, y1: ry, cx: mxx + (nxr / nlr) * bowr, cy: myy + (nyr / nlr) * bowr, x2: x2r, y2: y2r, wid: Math.max(w, 200) * 0.012, born: 0 });
+    }
   },
   start: function(){
     if (this.started) return;
@@ -601,20 +651,62 @@ var tree = {
     var ctx = this.ctx;
     ctx.clearRect(0, 0, this.w, this.h);
     var ic = inkColor();
-    var maxBorn = 8;
+    var maxBorn = this.maxBorn || 8;
+    // —— 地平线：发丝线横贯 + 左端等宽标注（杂志感）——
+    var groundY = this.h * 0.97;
+    ctx.strokeStyle = "rgba(" + ic + ",.5)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(this.w * 0.04, groundY);
+    ctx.lineTo(this.w * 0.96, groundY);
+    ctx.stroke();
+    // 地平线下方细密的短排线（蚀刻版画土壤质感，左密右疏）
+    ctx.strokeStyle = "rgba(" + ic + ",.22)";
+    for (var gx = 0; gx < 24; gx++){
+      var px = this.w * (0.08 + gx * 0.036);
+      var glen = 3 + ((gx * 7919) % 5); // 伪随机长度
+      ctx.beginPath();
+      ctx.moveTo(px, groundY + 3);
+      ctx.lineTo(px - glen * 0.35, groundY + 3 + glen);
+      ctx.stroke();
+    }
+    ctx.font = "10px " + "'IBM Plex Mono',monospace";
+    ctx.fillStyle = "rgba(" + ic + ",.5)";
+    ctx.textAlign = "left";
+    ctx.fillText("EARTH · LINE", this.w * 0.04, groundY + 16);
+    // —— 根系：与主干同期生长（born=0），细而淡 ——
+    if (this.roots){
+      for (var rt = 0; rt < this.roots.length; rt++){
+        var ro = this.roots[rt];
+        var rk = Math.min(t * 3, 1); // 根比树冠长得快
+        var rqx = ro.x1 + (ro.cx - ro.x1) * rk, rqy = ro.y1 + (ro.cy - ro.y1) * rk;
+        var rrx = ro.cx + (ro.x2 - ro.cx) * rk, rry = ro.cy + (ro.y2 - ro.cy) * rk;
+        var rex = rqx + (rrx - rqx) * rk, rey = rqy + (rry - rqy) * rk;
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(" + ic + ",.55)";
+        ctx.lineWidth = Math.max(ro.wid * rk, 0.5);
+        ctx.lineCap = "round";
+        ctx.moveTo(ro.x1, ro.y1);
+        ctx.quadraticCurveTo(rqx, rqy, rex, rey);
+        ctx.stroke();
+      }
+    }
+    // —— 树冠枝条 ——
     for (var i = 0; i < this.branches.length; i++){
       var b = this.branches[i];
       var bt = (t * (maxBorn + 1)) - b.born;
       if (bt <= 0) continue;
       var k = Math.min(bt, 1);
-      var x2 = b.x1 + (b.x2 - b.x1) * k;
-      var y2 = b.y1 + (b.y2 - b.y1) * k;
+      // 贝塞尔按生长进度 k 截断（de Casteljau）：画 P0→Q0→R 的子曲线
+      var qx = b.x1 + (b.cx - b.x1) * k, qy = b.y1 + (b.cy - b.y1) * k;
+      var rx2 = b.cx + (b.x2 - b.cx) * k, ry2 = b.cy + (b.y2 - b.cy) * k;
+      var ex = qx + (rx2 - qx) * k, ey = qy + (ry2 - qy) * k;
       ctx.beginPath();
       ctx.strokeStyle = "rgba(" + ic + "," + (0.35 + 0.55 * k) + ")";
       ctx.lineWidth = Math.max(b.wid * k, 0.6);
       ctx.lineCap = "round";
       ctx.moveTo(b.x1, b.y1);
-      ctx.lineTo(x2, y2);
+      ctx.quadraticCurveTo(qx, qy, ex, ey);
       ctx.stroke();
     }
     // 果实：墨色圆点+细环（印刷符号感），可点击
