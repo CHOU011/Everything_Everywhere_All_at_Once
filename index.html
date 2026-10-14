@@ -3,198 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0a0a12">
-<title>两颗药丸 · 一个宇宙的入口</title>
+<meta name="theme-color" content="#0a1f3d">
+<title>两颗药丸 · Two Pills — Vol.01</title>
 <style>
-/* ========== 基础 ========== */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* ============ 主题令牌 · 靛蓝瓷（来自 guizang themes.md，不自定义 hex） ============ */
+:root{
+  --ink:#0a1f3d;
+  --ink-rgb:10,31,61;
+  --paper:#f1f3f5;
+  --paper-rgb:241,243,245;
+  --paper-tint:#e4e8ec;
+  --ink-tint:#152a4a;
+  --serif:Georgia,"Times New Roman","Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{
-  --accent:#d4af37;
-  background:#0a0a12;color:#e9e2d0;
-  font-family:Georgia,"Songti SC","STSongti-SC","SimSun","宋体","Noto Serif CJK SC","Noto Serif SC",serif;
-  overflow-x:hidden;transition:background-color 1.2s ease;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--sans);
+  overflow-x:hidden;
+  transition:background-color .9s ease,color .9s ease;
 }
-body.mode-red{--accent:#e05a4e;background:#190d0b}
-body.mode-blue{--accent:#6f9fff;background:#0b1020}
+/* 红丸/蓝丸选定后的微色调（纸面冷暖偏移，克制） */
+body.mode-red{--ink:#33170f;--ink-rgb:51,23,15;--paper:#f5f1ec;--paper-rgb:245,241,236;--paper-tint:#e9e2d8;--ink-tint:#452015}
+body.mode-blue{--ink:#0a1f3d;--paper:#eef2f7;--paper-rgb:238,242,247;--paper-tint:#dfe7f0;--ink-tint:#152a4a}
 [hidden]{display:none!important}
-#page{max-width:640px;margin:0 auto;position:relative}
-.screen{min-height:100vh;min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;overflow:hidden}
+#page{max-width:720px;margin:0 auto;position:relative}
 
-/* ========== 第一屏 序章 ========== */
-#s1{background:transparent}
-#cosmosCv{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-#s1 .content{position:relative;z-index:1}
-#typeline{font-size:clamp(17px,4.6vw,22px);letter-spacing:.35em;color:#cfc6ad;min-height:1.9em}
-#caret{display:inline-block;width:1px;height:1em;background:#d4af37;margin-left:2px;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+/* ============ 屏幕外壳：深浅交替（杂志翻页节奏） ============ */
+.screen{min-height:100vh;min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:96px 26px 110px;overflow:hidden}
+.screen.light{background:var(--paper);color:var(--ink)}
+.screen.dark{background:var(--ink);color:var(--paper)}
+
+/* ============ 页眉页脚 chrome / foot（杂志感元信息条） ============ */
+.chrome,.foot{position:absolute;left:26px;right:26px;display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;z-index:3}
+.chrome{top:26px}
+.foot{bottom:26px}
+.chrome .sep,.foot .sep{display:inline-block;width:26px;height:1px;background:currentColor;opacity:.35;vertical-align:middle;margin:0 10px}
+.chrome .l,.foot .l{opacity:.72}
+.chrome .r,.foot .r{opacity:.72}
+
+/* ============ 字体纪律：衬线标题 / 无衬线正文 / 等宽元数据 ============ */
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.42em;text-transform:uppercase;opacity:.62;margin-bottom:2.6vh}
+.h-display{font-family:var(--serif);font-weight:700;font-size:clamp(30px,8.4vw,58px);line-height:1.32;letter-spacing:.06em}
+.h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,7vw,44px);line-height:1.4;letter-spacing:.08em}
+.lead{font-family:var(--serif);font-weight:400;font-size:clamp(17px,4.6vw,22px);line-height:2;letter-spacing:.1em}
+.body-t{font-family:var(--sans);font-size:clamp(14px,3.9vw,16px);line-height:2;letter-spacing:.06em;opacity:.86}
+em.en{font-family:var(--serif);font-style:italic}
+
+/* ============ 幽灵巨型背景字（杂志感） ============ */
+.ghost{position:absolute;font-family:var(--serif);font-style:italic;font-weight:900;font-size:34vw;line-height:1;opacity:.055;pointer-events:none;user-select:none;z-index:0;letter-spacing:-.02em}
+
+/* ============ 序章（深色 hero） ============ */
+#s1 .content{position:relative;z-index:2}
+#cosmosCv{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+#typeline{font-family:var(--serif);font-size:clamp(24px,6.6vw,42px);letter-spacing:.22em;min-height:1.8em;color:var(--paper)}
+#caret{display:inline-block;width:2px;height:1em;background:currentColor;margin-left:3px;vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.scroll-hint{position:absolute;bottom:24px;left:50%;color:#d4af37;font-size:22px;line-height:1;z-index:1;animation:breathe 2.4s ease-in-out infinite;display:flex;flex-direction:column;align-items:center;gap:7px}
-.scroll-hint small{font-size:11px;letter-spacing:.45em;text-indent:.45em;color:#a89a6f}
-@keyframes breathe{0%,100%{opacity:.15;transform:translateX(-50%) translateY(0)}50%{opacity:.9;transform:translateX(-50%) translateY(8px)}}
+.scroll-hint{position:absolute;bottom:64px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:.4em;text-transform:uppercase;opacity:.55;z-index:2;animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.25}50%{opacity:.75}}
 
-/* ========== 第二屏 创世纪 ========== */
-#s2{justify-content:flex-start;padding-top:15vh;background:#0a0a12;transition:background-color 2.8s linear}
-#s2.bg-g1{background:#0e241e}
-#s2.bg-g2{background:#143428}
-#s2.bg-g3{background:#3a2a12}
-body.mode-red #s2{background:#22100c}
-body.mode-blue #s2{background:#0e1526}
-#s2 h2{font-size:clamp(22px,6vw,32px);letter-spacing:.5em;text-indent:.5em;color:#d4af37;font-weight:400;opacity:0;transform:translateY(24px);transition:opacity 1.4s ease,transform 1.4s ease;margin-bottom:4vh}
-#s2 h2.show{opacity:1;transform:none}
-.para{min-height:27vh;display:flex;align-items:center;justify-content:center;width:100%;font-size:clamp(18px,5vw,24px);line-height:2;letter-spacing:.12em;color:#ded5bd;opacity:0;transform:translateY(28px);transition:opacity 1.5s ease,transform 1.5s ease;padding:0 6px}
-.para.show{opacity:1;transform:none}
+/* ============ 创世纪（浅色正文页） ============ */
+#s2 .para{position:relative;z-index:2;width:100%;min-height:24vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transform:translateY(26px);transition:opacity 1.3s ease,transform 1.3s ease}
+#s2 .para.show{opacity:1;transform:none}
+#s2 .para .num{font-family:var(--mono);font-size:11px;letter-spacing:.3em;opacity:.45}
+#s2 .para .t{font-family:var(--serif);font-size:clamp(19px,5.2vw,26px);line-height:2;letter-spacing:.1em}
+.callout{position:relative;z-index:2;max-width:560px;margin:4vh auto 0;padding:26px 26px 22px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;text-align:center}
+.callout .q{font-family:var(--serif);font-size:clamp(18px,5vw,24px);line-height:1.9;letter-spacing:.12em}
+.callout .cite{display:block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;opacity:.5}
 
-/* ========== 第三屏 果树 ========== */
-#s3{gap:14px}
-#treeCv{width:min(92vw,520px);height:min(60vh,460px);cursor:pointer;touch-action:manipulation}
-#fruitQuote{min-height:72px;max-width:520px;font-size:clamp(16px,4.4vw,20px);color:#d4af37;letter-spacing:.1em;line-height:1.9;opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
-#fruitQuote.show{opacity:1;transform:none;border:1px solid rgba(212,175,55,.4);outline:1px solid rgba(212,175,55,.15);outline-offset:3px;background:rgba(212,175,55,.06);padding:14px 20px}
-.treeline{font-size:clamp(13px,3.6vw,16px);color:#8d8474;letter-spacing:.08em;line-height:1.9;margin-top:2vh}
+/* ============ 果树（浅色） ============ */
+#treeHint{font-family:var(--mono);font-size:12px;letter-spacing:.32em;opacity:.5;margin-bottom:1.2vh;position:relative;z-index:2;animation:breathe 3s ease-in-out infinite}
+#treeCv{width:min(92vw,540px);height:min(56vh,440px);cursor:pointer;touch-action:manipulation;position:relative;z-index:2}
+#fruitQuote{position:relative;z-index:2;min-height:84px;max-width:520px;opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
+#fruitQuote.show{opacity:1;transform:none}
+.treeline{position:relative;z-index:2;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;line-height:2.1;opacity:.55;margin-top:2.4vh;max-width:520px}
 
-/* ========== 第四屏 选择 ========== */
-#s4 h2{font-size:clamp(21px,5.8vw,30px);letter-spacing:.4em;text-indent:.4em;color:#e9e2d0;font-weight:400}
-#s4 .lead{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.25em;text-indent:.25em;margin-top:14px}
-.pill-row{display:flex;gap:9vw;justify-content:center;align-items:flex-start;margin:5vh 0 4vh;flex-wrap:wrap}
-.pill-wrap{display:flex;flex-direction:column;align-items:center;gap:22px;perspective:600px;transition:opacity .8s ease;position:relative}
-/* 装饰艺术"神龛拱门"：药丸背后的拱形轮廓+顶端菱形 */
-.pill-wrap::before{content:"";position:absolute;top:-28px;left:50%;transform:translateX(-50%);width:172px;height:132px;border:1px solid rgba(212,175,55,.28);border-radius:86px 86px 0 0;border-bottom:none;pointer-events:none}
-.pill-wrap::after{content:"◆";position:absolute;top:-36px;left:50%;transform:translateX(-50%);color:#d4af37;font-size:9px;opacity:.65}
-.pill-wrap.dim{opacity:.22;pointer-events:none}
-.pill{width:118px;height:52px;border-radius:26px;position:relative;cursor:pointer;border:none;transform:rotateX(14deg);animation:float 4.2s ease-in-out infinite;transition:transform .7s cubic-bezier(.7,0,.84,0),opacity .7s ease}
+/* ============ 选择（深色 hero · 药丸是全页唯一饱和色） ============ */
+#s4 .lead{opacity:.72;font-size:clamp(14px,3.9vw,17px)}
+.tiny-hint{font-family:var(--mono);font-size:11px;letter-spacing:.34em;opacity:.42;margin-top:2.2vh;text-transform:uppercase;animation:breathe 3s ease-in-out infinite}
+.pill-row{display:flex;gap:10vw;justify-content:center;align-items:flex-start;margin:6vh 0 5vh;flex-wrap:wrap;position:relative;z-index:2}
+.pill-wrap{display:flex;flex-direction:column;align-items:center;gap:24px;perspective:600px;transition:opacity .8s ease}
+.pill-wrap.dim{opacity:.16;pointer-events:none}
+.pill{width:132px;height:58px;border-radius:29px;position:relative;cursor:pointer;border:none;transform:rotateX(14deg);animation:float 4.2s ease-in-out infinite;transition:transform .7s cubic-bezier(.7,0,.84,0),opacity .7s ease}
 .pill-wrap.blue .pill{animation-delay:1.1s}
 @keyframes float{0%,100%{transform:rotateX(14deg) translateY(0)}50%{transform:rotateX(14deg) translateY(-14px)}}
-.pill.red{background:linear-gradient(180deg,#ff6a5e 0%,#d92b1f 38%,#8f1409 100%);box-shadow:0 0 46px rgba(224,74,60,.55),inset -16px -8px 26px rgba(60,0,0,.55),inset 12px 8px 20px rgba(255,210,190,.35)}
-.pill.blue{background:linear-gradient(180deg,#7db3ff 0%,#2160e0 38%,#0c2c8a 100%);box-shadow:0 0 46px rgba(64,120,255,.5),inset -16px -8px 26px rgba(0,10,60,.55),inset 12px 8px 20px rgba(210,230,255,.35)}
+.pill.red{background:linear-gradient(180deg,#ff6a5e 0%,#d92b1f 38%,#8f1409 100%);box-shadow:0 10px 44px rgba(217,43,31,.42),inset -16px -8px 26px rgba(60,0,0,.55),inset 12px 8px 20px rgba(255,210,190,.35)}
+.pill.blue{background:linear-gradient(180deg,#7db3ff 0%,#2160e0 38%,#0c2c8a 100%);box-shadow:0 10px 44px rgba(33,96,224,.4),inset -16px -8px 26px rgba(0,10,60,.55),inset 12px 8px 20px rgba(210,230,255,.35)}
 .pill::before{content:"";position:absolute;top:7px;left:16px;width:44%;height:11px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(2px)}
 .pill::after{content:"";position:absolute;bottom:6px;right:18px;width:30%;height:8px;border-radius:50%;background:rgba(0,0,0,.28);filter:blur(2px)}
-.pill-label{font-size:clamp(14px,3.9vw,17px);letter-spacing:.14em;line-height:2;color:#cfc6ad}
-.pill-label b{display:block;font-weight:400;color:#e9e2d0}
-#chosenBlock{opacity:0;transform:translateY(16px);transition:opacity .9s ease .15s,transform .9s ease .15s;pointer-events:none}
+.pill-label{font-family:var(--serif);font-size:clamp(15px,4.2vw,18px);letter-spacing:.16em;line-height:2}
+.pill-label b{display:block;font-weight:700}
+.pill-label small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;opacity:.55;margin-top:4px}
+#chosenBlock{opacity:0;transform:translateY(16px);transition:opacity .9s ease .15s,transform .9s ease .15s;pointer-events:none;position:relative;z-index:2}
 #chosenBlock.show{opacity:1;transform:none;pointer-events:auto}
-#chosenMsg{font-size:clamp(18px,5vw,23px);letter-spacing:.2em;color:#e9e2d0;margin-bottom:4vh;line-height:2}
-.btn-main{display:inline-block;font-family:inherit;background:none;border:1px solid var(--accent);color:var(--accent);font-size:clamp(16px,4.4vw,19px);letter-spacing:.4em;text-indent:.4em;padding:17px 44px;border-radius:0;cursor:pointer;text-decoration:none;outline:1px solid rgba(212,175,55,.35);outline-offset:4px;transition:background .35s,box-shadow .35s}
-.btn-main::before,.btn-main::after{content:"◆";font-size:9px;vertical-align:2px;margin:0 10px;opacity:.7}
-.btn-main:hover,.btn-main:active{background:rgba(212,175,55,.12);box-shadow:0 0 30px rgba(212,175,55,.35)}
+#chosenMsg{font-family:var(--serif);font-size:clamp(19px,5.2vw,25px);letter-spacing:.18em;line-height:2;margin-bottom:4vh}
+/* 编辑部按钮：墨底纸字 / 纸底墨字，发丝线描边 */
+.btn{display:inline-block;font-family:var(--serif);font-size:clamp(15px,4.2vw,18px);letter-spacing:.42em;text-indent:.42em;padding:17px 46px;cursor:pointer;text-decoration:none;border:1px solid currentColor;background:transparent;color:inherit;transition:background .3s,color .3s,box-shadow .3s}
+.screen.dark .btn:hover,.screen.dark .btn:active{background:var(--paper);color:var(--ink)}
+.screen.light .btn:hover,.screen.light .btn:active{background:var(--ink);color:var(--paper)}
+.btn-solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn-solid:hover,.btn-solid:active{background:transparent;color:var(--ink)}
+.ghost-btn{background:none;border:none;color:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.24em;cursor:pointer;opacity:.5;border-bottom:1px solid currentColor;padding:4px 2px;margin-top:24px}
+.ghost-btn:hover{opacity:1}
 
-/* ========== 第五屏 报名 ========== */
-#s5 h2{font-size:clamp(22px,6vw,30px);letter-spacing:.3em;text-indent:.3em;color:var(--accent);font-weight:400;margin-bottom:4vh}
-#s5 .desc{font-size:clamp(14px,4vw,16px);color:#b9b09a;letter-spacing:.1em;line-height:2;margin-bottom:6vh;max-width:460px}
-.copyline{font-size:13px;color:#77705f;margin-top:18px;letter-spacing:.05em;line-height:1.8;word-break:break-all}
-footer{margin-top:7vh;font-size:13px;color:#5d5748;letter-spacing:.18em}
+/* ============ 报名（浅色收尾页） ============ */
+#s5 .desc{font-family:var(--sans);font-size:clamp(14px,3.9vw,16px);letter-spacing:.08em;line-height:2;opacity:.75;margin:2.4vh auto 5vh;max-width:440px;position:relative;z-index:2}
+.copyline{font-family:var(--mono);font-size:11.5px;opacity:.5;margin-top:20px;letter-spacing:.04em;line-height:1.9;word-break:break-all;position:relative;z-index:2}
+.colophon{margin-top:8vh;font-family:var(--mono);font-size:11px;letter-spacing:.3em;opacity:.45;line-height:2.2;position:relative;z-index:2}
 
-/* ========== 细节填充层 ========== */
-#bgCv{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1}
-/* 装饰艺术流线纹理（极淡斜线） */
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:repeating-linear-gradient(45deg,rgba(212,175,55,.028) 0 1px,transparent 1px 16px)}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center,transparent 58%,rgba(4,4,10,.5) 100%)}
-.subcaption{margin-top:20px;font-size:clamp(12px,3.2vw,14px);color:#8d8474;letter-spacing:.5em;text-indent:.5em}
-.orna{margin:1.5vh 0 0;font-size:12px;color:#d4af37;opacity:.55;letter-spacing:.6em;text-indent:.6em}
-.eyebrow{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.5em;text-indent:.5em;margin-bottom:1vh}
+/* ============ 入境考验（纸白卡片弹层） ============ */
+#gate{position:fixed;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;background:rgba(10,31,61,.55);backdrop-filter:blur(6px);animation:gateIn .35s ease}
+#gate[hidden]{display:none}
+@keyframes gateIn{from{opacity:0}to{opacity:1}}
+.gate-box{max-width:500px;width:88%;background:var(--paper);color:var(--ink);padding:38px 30px 26px;text-align:center;border:1px solid var(--ink)}
+.gate-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;opacity:.55;margin-bottom:2.6vh}
+.gate-q{font-family:var(--serif);font-size:clamp(16px,4.4vw,19px);line-height:2;letter-spacing:.1em;margin-bottom:3vh}
+.gate-opt{display:block;width:100%;margin:12px 0;padding:15px 16px;background:none;border:none;border-top:1px solid rgba(10,31,61,.22);color:var(--ink);font-family:var(--serif);font-size:clamp(15px,4vw,17px);letter-spacing:.08em;cursor:pointer;transition:background .22s,padding .22s;text-align:left}
+.gate-opt:last-of-type{border-bottom:1px solid rgba(10,31,61,.22)}
+.gate-opt:hover{background:var(--paper-tint);padding-left:24px}
+.gate-oath{font-family:var(--serif);font-size:clamp(18px,4.8vw,22px);line-height:2.2;letter-spacing:.12em;margin-bottom:3.6vh}
+.gate-oath em{font-style:normal;border-bottom:3px solid var(--ink);padding-bottom:2px}
+.gate-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.gate-note{margin-top:18px;font-family:var(--mono);font-size:11px;opacity:.45;letter-spacing:.2em}
 
-/* ========== 装饰艺术构件 ========== */
-/* 全页双层画框 */
-#decoFrame{position:fixed;inset:8px;pointer-events:none;z-index:85;border:1px solid rgba(212,175,55,.45)}
-#decoFrame::before{content:"";position:absolute;inset:4px;border:1px solid rgba(212,175,55,.18)}
-/* 四角阶梯角饰 */
-.corner{position:fixed;width:26px;height:26px;z-index:86;pointer-events:none}
-.corner::before,.corner::after{content:"";position:absolute;background:rgba(212,175,55,.8)}
-.corner::before{width:100%;height:2px}
-.corner::after{width:2px;height:100%}
-.c-tl{top:15px;left:15px}
-.c-tr{top:15px;right:15px;transform:scaleX(-1)}
-.c-bl{bottom:15px;left:15px;transform:scaleY(-1)}
-.c-br{bottom:15px;right:15px;transform:scale(-1)}
-/* 扇形太阳纹（标题上方） */
-.fan{width:clamp(90px,26vw,140px);height:clamp(45px,13vw,70px);margin:0 auto 2.4vh;background:repeating-conic-gradient(from 180deg at 50% 100%,rgba(212,175,55,.5) 0deg 3.5deg,transparent 3.5deg 11deg);border-radius:200px 200px 0 0;opacity:.85}
-/* 菱形分隔线 */
-.deco-rule{display:flex;align-items:center;gap:14px;width:min(72vw,420px);margin:3vh auto}
-.deco-rule::before,.deco-rule::after{content:"";flex:1;height:1px}
-.deco-rule::before{background:linear-gradient(90deg,transparent,#d4af37)}
-.deco-rule::after{background:linear-gradient(90deg,#d4af37,transparent)}
-.deco-rule span{color:#d4af37;font-size:10px;line-height:1}
+/* ============ 答错引导 toast ============ */
+#gateToast{position:fixed;left:50%;bottom:14vh;transform:translateX(-50%) translateY(14px);z-index:99;background:var(--ink);color:var(--paper);border:1px solid var(--paper);font-family:var(--serif);font-size:15px;letter-spacing:.1em;padding:14px 24px;max-width:82vw;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+#gateToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ========== 全局层 ========== */
-#fxCv{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90}
-#welcomeBack{position:fixed;top:0;left:0;right:0;z-index:99;text-align:center;padding:12px 16px;font-size:12px;letter-spacing:.3em;color:var(--accent);background:rgba(10,10,18,.72);opacity:0;transform:translateY(-100%);transition:opacity 1s ease,transform 1s ease}
+/* ============ 回访问候条 ============ */
+#welcomeBack{position:fixed;top:0;left:0;right:0;z-index:99;text-align:center;padding:13px 16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.4em;text-transform:uppercase;background:var(--ink);color:var(--paper);opacity:0;transform:translateY(-100%);transition:opacity 1s ease,transform 1s ease}
 #welcomeBack.show{opacity:1;transform:none}
 
+/* ============ 全局层 ============ */
+#bgCv{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+.screen{z-index:2}
+#fxCv{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90}
+
 @media (min-width:641px){
-  .pill{width:140px;height:62px;border-radius:31px}
-  #s2{padding-top:18vh}
+  .pill{width:160px;height:70px;border-radius:35px}
+}
+@media (prefers-reduced-motion:reduce){
+  .pill,.scroll-hint,.tiny-hint,#treeHint{animation:none!important}
 }
 </style>
-<noscript><style>.para,#s2 h2{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>#s2 .para{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 <canvas id="bgCv"></canvas>
-<div id="decoFrame"></div>
-<div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
 <div id="welcomeBack"></div>
 <main id="page">
 
-  <!-- 第一屏 序章：粒子聚合 + 打字机 -->
-  <section id="s1" class="screen">
+  <!-- ① 序章 · 深色 hero -->
+  <section id="s1" class="screen dark" data-theme="dark">
     <canvas id="cosmosCv"></canvas>
+    <div class="ghost" style="right:-8vw;top:-10vh"> Idea</div>
+    <div class="chrome"><span class="l">两颗药丸 · 入口特辑</span><span class="sep"></span><span class="l">Vol.01</span><span class="r">01 / 05</span></div>
     <div class="content">
-      <div class="fan"></div>
-      <p class="eyebrow">THE UNIVERSE BEGINS WITH A THOUGHT</p>
+      <p class="kicker">A Universe Built on Ideas</p>
       <p id="typeline"><span id="caret"></span></p>
-      <p class="subcaption">一个由念头构成的宇宙</p>
+      <p class="body-t" style="margin-top:3vh;opacity:.6;letter-spacing:.24em">一个由念头构成的宇宙，正在排版</p>
+      <p class="tiny-hint" style="color:var(--paper);opacity:.4">移动指尖 · 星光会向你聚拢</p>
     </div>
-    <div class="scroll-hint"><small>向下滚动</small><span>↓</span></div>
+    <div class="scroll-hint">Scroll ↓</div>
+    <div class="foot"><span class="l">想法即现实 · 只差一次对话</span><span class="r">Prologue</span></div>
   </section>
 
-  <!-- 第二屏 创世纪：四段淡入 + 背景黑→紫→金 -->
-  <section id="s2" class="screen">
-    <div class="fan"></div>
-    <h2>创世纪 · 第 0 章</h2>
-    <p class="para">有人从没写过一行代码，却亲手做出了一个小游戏。</p>
-    <p class="para">那一刻人们意识到：想法落地，原来可以不需要技术。</p>
-    <p class="para">于是，一个宇宙诞生了。</p>
-    <p class="para">这个宇宙只有一条物理定律：想法即现实，只差一次对话。</p>
-    <div class="deco-rule"><span>◆</span></div>
+  <!-- ② 创世纪 · 浅色正文页 -->
+  <section id="s2" class="screen light" data-theme="light">
+    <div class="ghost" style="left:-9vw;bottom:-16vh">Ch.0</div>
+    <div class="chrome"><span class="l">创世纪</span><span class="sep"></span><span class="l">Genesis</span><span class="r">02 / 05</span></div>
+    <p class="kicker" style="position:relative;z-index:2">Chapter Zero</p>
+    <div class="para"><span class="num">¶ 01</span><span class="t">有人从没写过一行代码，<br>却亲手做出了一个小游戏。</span></div>
+    <div class="para"><span class="num">¶ 02</span><span class="t">那一刻人们意识到：<br>想法落地，原来可以不需要技术。</span></div>
+    <div class="para"><span class="num">¶ 03</span><span class="t">于是，一个宇宙诞生了。</span></div>
+    <div class="callout" id="lawCallout">
+      <div class="q">这个宇宙只有一条物理定律：<br>想法即现实，只差一次对话。</div>
+      <span class="cite">— The Only Law · 唯一定律</span>
+    </div>
+    <div class="foot"><span class="l">两颗药丸 · 入口特辑</span><span class="r">Genesis · Ch.0</span></div>
   </section>
 
-  <!-- 第三屏 果树：分形生长 + 可点果实 -->
-  <section id="s3" class="screen">
+  <!-- ③ 果树 · 浅色 -->
+  <section id="s3" class="screen light" data-theme="light">
+    <div class="ghost" style="right:-7vw;bottom:-14vh">Tree</div>
+    <div class="chrome"><span class="l">果树 · 摘一颗念头</span><span class="sep"></span><span class="l">Orchard</span><span class="r">03 / 05</span></div>
+    <p id="treeHint">Tap the glowing fruit · 点一点树上的光点</p>
     <canvas id="treeCv"></canvas>
     <div id="fruitQuote"></div>
-    <p class="treeline">果树不结苹果，只结尚未被实现的念头。<br>水与阳光(token)对所有人免费——这是本宇宙的第一条承诺。</p>
+    <p class="treeline">果树不结苹果，只结尚未被实现的念头。<br>水与阳光 (token) 对所有人免费——这是本宇宙的第一条承诺。</p>
+    <div class="foot"><span class="l">两颗药丸 · 入口特辑</span><span class="r">Orchard</span></div>
   </section>
 
-  <!-- 第四屏 选择：红丸/蓝丸 -->
-  <section id="s4" class="screen">
-    <div class="fan"></div>
-    <h2>现在，两颗药丸摆在你面前。</h2>
-    <p class="lead">选择无法撤销，但围观者随时可以改变主意</p>
-    <div class="pill-row">
-      <div class="pill-wrap red">
-        <div class="pill red" id="pillRed" role="button" tabindex="0" aria-label="红丸·造物者"></div>
-        <p class="pill-label"><b>红丸 · 造物者</b>我有想法，我要把它做出来</p>
+  <!-- ④ 选择 · 深色 hero（药丸=全页唯一饱和色） -->
+  <section id="s4" class="screen dark" data-theme="dark">
+    <canvas id="s4stars"></canvas>
+    <div class="ghost" style="left:-10vw;top:-12vh;font-style:normal">Choose</div>
+    <div class="chrome"><span class="l">选择 · 仪式</span><span class="sep"></span><span class="l">The Choice</span><span class="r">04 / 05</span></div>
+    <div style="position:relative;z-index:2">
+      <p class="kicker">Red or Blue</p>
+      <p class="h-display">现在，两颗药丸<br>摆在你面前。</p>
+      <p class="lead" style="margin-top:2vh;font-size:clamp(14px,3.9vw,17px);opacity:.7">选择无法撤销 · 但围观者随时可以改变主意</p>
+      <p class="tiny-hint">轻触一颗药丸 · 做出你的选择</p>
+      <div class="pill-row">
+        <div class="pill-wrap red">
+          <div class="pill red" id="pillRed" role="button" tabindex="0" aria-label="红丸·造物者"></div>
+          <p class="pill-label"><b>红丸 · 造物者</b>我有想法，我要把它做出来<small>Maker</small></p>
+        </div>
+        <div class="pill-wrap blue">
+          <div class="pill blue" id="pillBlue" role="button" tabindex="0" aria-label="蓝丸·围观者"></div>
+          <p class="pill-label"><b>蓝丸 · 围观者</b>我先看看，这个世界会长成什么样<small>Watcher</small></p>
+        </div>
       </div>
-      <div class="pill-wrap blue">
-        <div class="pill blue" id="pillBlue" role="button" tabindex="0" aria-label="蓝丸·围观者"></div>
-        <p class="pill-label"><b>蓝丸 · 围观者</b>我先看看，这个世界会长成什么样</p>
+      <div id="chosenBlock">
+        <p id="chosenMsg"></p>
+        <button class="btn" id="goSignup">前往报名</button>
+        <p><button id="rechoose" class="ghost-btn">↺ 选错了？重新选择</button></p>
       </div>
     </div>
-    <div id="chosenBlock">
-      <p id="chosenMsg"></p>
-      <button class="btn-main" id="goSignup">前往报名</button>
-    </div>
+    <div class="foot"><span class="l">两颗药丸 · 入口特辑</span><span class="r">The Choice</span></div>
   </section>
 
-  <!-- 第五屏 报名跳转：点击前往报名后展示 -->
-  <section id="s5" class="screen" hidden>
-    <h2 id="signupTitle">提交你的入境申请</h2>
-    <p class="desc">填写你的联系方式和想法。联系方式仅活动组织者可见。</p>
-    <div class="deco-rule"><span>◆</span></div>
-    <a class="btn-main" id="signupLink" href="#" rel="nofollow">入境通道 →</a>
-    <p class="copyline" id="copyLine"></p>
-    <footer>两颗药丸 1.0 · 想法即现实，只差一次对话</footer>
+  <!-- ⑤ 报名 · 浅色收尾 -->
+  <section id="s5" class="screen light" data-theme="light" hidden>
+    <div class="ghost" style="right:-9vw;top:-10vh">Enter</div>
+    <div class="chrome"><span class="l">入境登记</span><span class="sep"></span><span class="l">Entry</span><span class="r">05 / 05</span></div>
+    <div style="position:relative;z-index:2">
+      <p class="kicker">Application</p>
+      <p class="h1" id="signupTitle">提交你的入境申请</p>
+      <p class="desc">填写你的联系方式和想法。联系方式仅活动组织者可见。</p>
+      <a class="btn btn-solid" id="signupLink" href="#" rel="nofollow">入境通道 →</a>
+      <p class="copyline" id="copyLine"></p>
+      <div class="colophon">两颗药丸 1.0 · 想法即现实，只差一次对话<br>Long-press blank · 3s — a small firework</div>
+    </div>
+    <div class="foot"><span class="l">两颗药丸 · 入口特辑</span><span class="r">Entry · End</span></div>
   </section>
 
 </main>
+<!-- 入境考验弹层 -->
+<div id="gate" hidden>
+  <div class="gate-box">
+    <p class="gate-eyebrow">入 境 考 验 · A Quiz</p>
+    <div id="gateQuiz">
+      <p class="gate-q">更换药丸前，回答一个小问题——<br>这个宇宙唯一的物理定律是？</p>
+      <button class="gate-opt" data-r="1">想法即现实，只差一次对话</button>
+      <button class="gate-opt" data-r="0" data-t="显然你对水果的理解有些问题。">香蕉其实是一种苹果</button>
+      <button class="gate-opt" data-r="0" data-t="躺着确实舒服，但这道题不这么答。">念头没什么用，躺着就好</button>
+    </div>
+    <div id="gateOath" hidden>
+      <p class="gate-oath">你只有一次机会。<br>要么接受，<em>要么从0开始</em>——<br>忘记一切吧，忘记规则的框架，<br>放开手脚，从头开始！</p>
+      <div class="gate-btns">
+        <button class="btn" id="gateAccept" style="color:var(--ink)">我接受</button>
+        <button class="btn btn-solid" id="gateReset">从0开始</button>
+      </div>
+      <p class="gate-note">药丸不可更换，但宇宙允许重来</p>
+    </div>
+  </div>
+</div>
 <canvas id="fxCv"></canvas>
+<div id="gateToast"></div>
 <script>
 "use strict";
 /* ================= 常量配置 ================= */
@@ -203,7 +272,6 @@ var SIGNUP_URL = "https://www.baidu.com";
 var TYPE_TEXT = "起初，只有一个念头。";
 var RED_MSG = "欢迎，造物者。留下你的名字和念头。";
 var BLUE_MSG = "欢迎，围观者。你可以随时改变主意。";
-// 12 条"尚未被实现的念头"（果树彩蛋文案）
 var QUOTES = [
   "给楼下猫写一份简历",
   "用网页做一个只会说晚安的收音机",
@@ -219,18 +287,21 @@ var QUOTES = [
   "把今天的云收藏进一个抽屉"
 ];
 
-/* ================= 小工具 ================= */
 function $(id){ return document.getElementById(id); }
-// 判断移动端：粒子数量减半，保 60fps
 var IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 640;
 
-/* ================= 全局粒子层（烟花/药丸炸开共用） ================= */
+/* ================= 主题工具（读写 CSS 变量，跟随当前屏深浅） ================= */
+function inkColor(){ return getComputedStyle(document.body).getPropertyValue("--ink-rgb").trim() || "10,31,61"; }
+function paperColor(){ return getComputedStyle(document.body).getPropertyValue("--paper-rgb").trim() || "241,243,245"; }
+
+/* ================= 全局粒子层（烟花/药丸炸开/从0开始冲刷共用） ================= */
 var fx = {
   cv: null, ctx: null, parts: [], running: false,
   init: function(){
     this.cv = $("fxCv");
     this.ctx = this.cv.getContext("2d");
     this.resize();
+    var self = this;
     window.addEventListener("resize", this.resize.bind(this));
   },
   resize: function(){
@@ -239,7 +310,6 @@ var fx = {
     this.cv.height = window.innerHeight * dpr;
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   },
-  // 在 (x,y) 生成 n 个粒子（颜色可选数组，随机取）
   burst: function(x, y, n, colors, speed){
     var cnt = IS_MOBILE ? Math.ceil(n / 2) : n;
     for (var i = 0; i < cnt; i++){
@@ -250,7 +320,7 @@ var fx = {
         vx: Math.cos(a) * v, vy: Math.sin(a) * v,
         life: 1, decay: 0.008 + Math.random() * 0.012,
         r: 1 + Math.random() * 2.4,
-        color: colors ? colors[(Math.random() * colors.length) | 0] : "#d4af37"
+        color: colors ? colors[(Math.random() * colors.length) | 0] : "rgb(" + inkColor() + ")"
       });
     }
     if (!this.running){ this.running = true; this.loop(); }
@@ -262,13 +332,12 @@ var fx = {
       for (var i = self.parts.length - 1; i >= 0; i--){
         var p = self.parts[i];
         p.x += p.vx; p.y += p.vy;
-        p.vy += 0.02; // 轻微重力
+        p.vy += 0.02;
         p.vx *= 0.99; p.vy *= 0.99;
         p.life -= p.decay;
         if (p.life <= 0){ self.parts.splice(i, 1); continue; }
         ctx.globalAlpha = Math.max(p.life, 0);
         ctx.fillStyle = p.color;
-        // 装饰艺术：菱形粒子
         var s = p.r * 1.6;
         ctx.beginPath();
         ctx.moveTo(p.x, p.y - s);
@@ -286,9 +355,127 @@ var fx = {
   }
 };
 
-/* ================= 第一屏：深空粒子聚合 ================= */
+/* ================= 交互星空（深色屏专用 · 视差+指尖吸引+流星） ================= */
+var stars = {
+  cv: null, ctx: null, pts: [], mx: -1, my: -1, hasMouse: false,
+  meteors: [], lastMeteor: 0, visible: false,
+  init: function(){
+    this.cv = $("bgCv");
+    this.ctx = this.cv.getContext("2d");
+    this.seed();
+    var self = this;
+    window.addEventListener("resize", function(){ self.seed(); });
+    document.body.addEventListener("mousemove", function(e){ self.mx = e.clientX; self.my = e.clientY; self.hasMouse = true; });
+    document.body.addEventListener("touchmove", function(e){ var t = e.touches[0]; if (t){ self.mx = t.clientX; self.my = t.clientY; self.hasMouse = true; } }, { passive: true });
+    document.body.addEventListener("touchend", function(){ self.hasMouse = false; });
+    this.loop();
+  },
+  seed: function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.cv.width = window.innerWidth * dpr; this.cv.height = window.innerHeight * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.w = window.innerWidth; this.h = window.innerHeight;
+    var n = Math.round(this.w * this.h / (IS_MOBILE ? 14000 : 7000));
+    this.pts = [];
+    for (var i = 0; i < n; i++){
+      this.pts.push({
+        x: Math.random() * this.w, y: Math.random() * this.h,
+        s: Math.random() * 1.3 + 0.4,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.0004 + Math.random() * 0.0012,
+        depth: 0.3 + Math.random() * 0.7
+      });
+    }
+  },
+  spawnMeteor: function(t){
+    if (t - this.lastMeteor < 6000) return;
+    this.lastMeteor = t;
+    this.meteors.push({
+      x: Math.random() * this.w * 0.8 + this.w * 0.1, y: -20,
+      vx: 2.4 + Math.random() * 2, vy: 2.2 + Math.random() * 1.4,
+      life: 1
+    });
+  },
+  loop: function(){
+    var self = this, ctx = this.ctx;
+    function frame(t){
+      // 只在深色屏可见时绘制（浅色纸面页透出会脏）
+      if (self.visible){
+        ctx.clearRect(0, 0, self.w, self.h);
+        var pc = paperColor();
+        for (var i = 0; i < self.pts.length; i++){
+          var p = self.pts[i];
+          var a = 0.1 + 0.28 * Math.abs(Math.sin(t * p.sp + p.ph));
+          var x = p.x, y = p.y;
+          if (self.hasMouse){
+            var dxm = (self.mx - self.w / 2) * 0.03 * p.depth;
+            var dym = (self.my - self.h / 2) * 0.03 * p.depth;
+            x -= dxm; y -= dym;
+            var ddx = self.mx - x, ddy = self.my - y;
+            var d2 = ddx * ddx + ddy * ddy;
+            if (d2 < 8100){
+              var d = Math.sqrt(d2) || 1;
+              var pull = (90 - d) / 90 * 14 * p.depth;
+              x += (ddx / d) * pull; y += (ddy / d) * pull;
+              a = Math.min(a + (90 - d) / 90 * 0.5, 1);
+            }
+          }
+          ctx.globalAlpha = a;
+          ctx.fillStyle = "rgb(" + pc + ")";
+          var s = p.s * 1.4;
+          ctx.beginPath();
+          ctx.moveTo(x, y - s);
+          ctx.lineTo(x + s, y);
+          ctx.lineTo(x, y + s);
+          ctx.lineTo(x - s, y);
+          ctx.closePath();
+          ctx.fill();
+        }
+        // 流星（纸色拖尾）
+        for (var m = self.meteors.length - 1; m >= 0; m--){
+          var mt = self.meteors[m];
+          mt.x += mt.vx; mt.y += mt.vy; mt.life -= 0.008;
+          if (mt.life <= 0 || mt.y > self.h + 40){ self.meteors.splice(m, 1); continue; }
+          var trail = ctx.createLinearGradient(mt.x, mt.y, mt.x - mt.vx * 22, mt.y - mt.vy * 22);
+          trail.addColorStop(0, "rgba(" + pc + "," + (0.85 * mt.life) + ")");
+          trail.addColorStop(1, "rgba(" + pc + ",0)");
+          ctx.strokeStyle = trail;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(mt.x, mt.y);
+          ctx.lineTo(mt.x - mt.vx * 22, mt.y - mt.vy * 22);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        self.spawnMeteor(t);
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+};
+
+/* ================= 打字机 ================= */
+var typer = {
+  start: function(el, text){
+    if (this._t) return;
+    var i = 0;
+    var caret = el.querySelector("#caret") || el.lastChild;
+    function step(){
+      if (i <= text.length){
+        var span = document.createTextNode(text.slice(0, i));
+        if (el._typed) el.removeChild(el._typed);
+        el._typed = el.insertBefore(span, caret);
+        i++;
+        setTimeout(step, 150 + Math.random() * 120);
+      }
+    }
+    setTimeout(step, 900);
+  }
+};
+/* ================= 序章粒子（墨色微粒 · 缓慢旋涡聚合） ================= */
 var cosmos = {
-  cv: null, ctx: null, pts: [], raf: null, visible: true,
+  cv: null, ctx: null, pts: [], visible: true,
   init: function(){
     this.cv = $("cosmosCv");
     this.ctx = this.cv.getContext("2d");
@@ -304,18 +491,17 @@ var cosmos = {
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.w = r.width; this.h = r.height;
   },
-  // 粒子围绕中心缓慢旋转聚合（移动端数量减半）
   seed: function(){
-    var n = (IS_MOBILE ? 70 : 140), cx = this.w / 2, cy = this.h / 2;
+    var n = (IS_MOBILE ? 60 : 120);
     this.pts = [];
     for (var i = 0; i < n; i++){
       this.pts.push({
-        a: Math.random() * Math.PI * 2,          // 极角
-        r: 30 + Math.random() * Math.min(this.w, this.h) * 0.42, // 极径
-        vr: (Math.random() - 0.5) * 0.18,        // 极径呼吸速度
-        va: 0.0016 + Math.random() * 0.0032,     // 旋转角速度
-        s: 0.6 + Math.random() * 1.6,            // 粒径
-        tw: Math.random() * Math.PI * 2          // 闪烁相位
+        a: Math.random() * Math.PI * 2,
+        r: 30 + Math.random() * Math.min(this.w, this.h) * 0.42,
+        vr: (Math.random() - 0.5) * 0.18,
+        va: 0.0016 + Math.random() * 0.0032,
+        s: 0.5 + Math.random() * 1.3,
+        tw: Math.random() * Math.PI * 2
       });
     }
   },
@@ -326,16 +512,17 @@ var cosmos = {
       var ctx = self.ctx;
       ctx.clearRect(0, 0, self.w, self.h);
       var cx = self.w / 2, cy = self.h / 2;
+      var pc = paperColor();
       for (var i = 0; i < self.pts.length; i++){
         var p = self.pts[i];
-        p.a += p.va;                    // 缓慢公转
-        p.r += p.vr;                    // 呼吸式靠近/远离
+        p.a += p.va;
+        p.r += p.vr;
         if (p.r < 26 || p.r > Math.min(self.w, self.h) * 0.46) p.vr *= -1;
         var x = cx + Math.cos(p.a) * p.r;
-        var y = cy + Math.sin(p.a) * p.r * 0.72; // 椭圆轨道，更立体
-        var tw = 0.35 + 0.65 * Math.abs(Math.sin(t * 0.001 + p.tw)); // 闪烁
-        ctx.globalAlpha = tw * 0.85;
-        ctx.fillStyle = i % 7 === 0 ? "#d4af37" : "#cfd6ff";
+        var y = cy + Math.sin(p.a) * p.r * 0.72;
+        var tw = 0.3 + 0.7 * Math.abs(Math.sin(t * 0.001 + p.tw));
+        ctx.globalAlpha = tw * 0.6;
+        ctx.fillStyle = "rgb(" + pc + ")";
         ctx.beginPath();
         ctx.arc(x, y, p.s, 0, Math.PI * 2);
         ctx.fill();
@@ -347,134 +534,10 @@ var cosmos = {
   }
 };
 
-/* ================= 全局星空背景（固定层，极慢闪烁填充空旷感） ================= */
-var stars = {
-  cv: null, ctx: null, pts: [],
-  init: function(){
-    this.cv = $("bgCv");
-    this.ctx = this.cv.getContext("2d");
-    this.seed();
-    var self = this;
-    window.addEventListener("resize", function(){ self.seed(); });
-    this.loop();
-  },
-  seed: function(){
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    this.cv.width = window.innerWidth * dpr; this.cv.height = window.innerHeight * dpr;
-    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    this.w = window.innerWidth; this.h = window.innerHeight;
-    // 星星数量随屏幕面积走，移动端自然减半
-    var n = Math.round(this.w * this.h / (IS_MOBILE ? 12000 : 6000));
-    this.pts = [];
-    for (var i = 0; i < n; i++){
-      this.pts.push({
-        x: Math.random() * this.w, y: Math.random() * this.h,
-        s: Math.random() * 1.2 + 0.3,
-        ph: Math.random() * Math.PI * 2,
-        sp: 0.0004 + Math.random() * 0.0012 // 闪烁速度
-      });
-    }
-  },
-  loop: function(){
-    var self = this, ctx = this.ctx;
-    function frame(t){
-      ctx.clearRect(0, 0, self.w, self.h);
-      for (var i = 0; i < self.pts.length; i++){
-        var p = self.pts[i];
-        var a = 0.12 + 0.3 * Math.abs(Math.sin(t * p.sp + p.ph)); // 暗星，不抢主体
-        ctx.globalAlpha = a;
-        ctx.fillStyle = i % 9 === 0 ? "#d4af37" : "#9aa4c8";
-        // 装饰艺术：微小菱形星
-        var s = p.s * 1.4;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y - s);
-        ctx.lineTo(p.x + s, p.y);
-        ctx.lineTo(p.x, p.y + s);
-        ctx.lineTo(p.x - s, p.y);
-        ctx.closePath();
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-};
-
-/* ================= 打字机效果（第一屏） ================= */
-var typer = {
-  start: function(el, text){
-    if (this._t) return; // 防重入
-    var i = 0;
-    var caret = el.querySelector("#caret") || el.lastChild;
-    function step(){
-      if (i <= text.length){
-        // 逐字插入到光标前
-        var span = document.createTextNode(text.slice(0, i));
-        if (el._typed) el.removeChild(el._typed);
-        el._typed = el.insertBefore(span, caret);
-        i++;
-        setTimeout(step, 140 + Math.random() * 120); // 逐字节奏微随机，更像"念头"
-      }
-    }
-    setTimeout(step, 900); // 页面加载后先静默一拍
-  }
-};
-
-/* ================= 滚动淡入（IntersectionObserver，非 scroll 监听） ================= */
-function initReveals(){
-  if (!("IntersectionObserver" in window)){
-    // 兜底：不支持 IO 时直接全显
-    var all = document.querySelectorAll(".para, #s2 h2");
-    for (var i = 0; i < all.length; i++) all[i].classList.add("show");
-    return;
-  }
-  // 段落：进入视口 30% 即淡入
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (en.isIntersecting){ en.target.classList.add("show"); io.unobserve(en.target); }
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll(".para").forEach(function(p){ io.observe(p); });
-  // 标题 + 第二屏背景渐变（黑→紫→金），按段落序号切换
-  var s2 = $("s2");
-  var stages = ["", "bg-g1", "bg-g2", "bg-g3"];
-  var ioH = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (!en.isIntersecting) return;
-      h2.classList.add("show");
-    });
-  }, { threshold: 0.6 });
-  var h2 = document.querySelector("#s2 h2");
-  if (h2) ioH.observe(h2);
-  // 背景分段渐变：观察 4 个段落，每进入一段推进一步色阶
-  var idx = 0;
-  var ioBg = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (!en.isIntersecting) return;
-      var k = Array.prototype.indexOf.call(document.querySelectorAll(".para"), en.target);
-      if (k > idx) idx = k;
-      s2.className = "screen " + stages[Math.min(idx + 1, 3)];
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll(".para").forEach(function(p){ ioBg.observe(p); });
-  // 果树屏进入时开始生长动画
-  var ioTree = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (en.isIntersecting){ tree.start(); ioTree.unobserve(en.target); }
-    });
-  }, { threshold: 0.35 });
-  ioTree.observe($("s3"));
-  // 序章粒子屏滚出视口后暂停渲染省电
-  var ioS1 = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){ cosmos.visible = en.isIntersecting; });
-  }, { threshold: 0.05 });
-  ioS1.observe($("s1"));
-}
-/* ================= 第三屏：分形果树 ================= */
+/* ================= 果树（墨线分形 · 纸面印刷感） ================= */
 var tree = {
   cv: null, ctx: null, started: false, t0: 0, done: false,
-  branches: [], fruits: [], quoteEl: null, raf: null,
+  branches: [], fruits: [], quoteEl: null,
   init: function(){
     this.cv = $("treeCv");
     this.ctx = this.cv.getContext("2d");
@@ -482,7 +545,6 @@ var tree = {
     this.resize();
     var self = this;
     window.addEventListener("resize", function(){ self.resize(); if (self.done) self.draw(1); });
-    // 点击画布：命中果实则掉落并展开一句话
     this.cv.addEventListener("click", function(e){
       var rect = self.cv.getBoundingClientRect();
       self.pick(e.clientX - rect.left, e.clientY - rect.top);
@@ -495,15 +557,13 @@ var tree = {
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.w = r.width; this.h = r.height;
   },
-  // 生成所有枝条数据（递归分形；进度=枝条深度的函数）
   genTree: function(){
     this.branches = []; this.fruits = [];
     var w = this.w, h = this.h;
     var self = this;
     function grow(x, y, ang, len, wid, depth, tBirth){
       if (depth > 7 || len < 6) {
-        // 末端挂果实（约半数末梢结果，金色光点）
-        if (Math.random() < 0.5) self.fruits.push({ x: x, y: y, r: 3 + Math.random() * 2.2, born: tBirth, picked: false, fall: null });
+        if (Math.random() < 0.5) self.fruits.push({ x: x, y: y, r: 3 + Math.random() * 2.2, born: tBirth, picked: false });
         return;
       }
       var x2 = x + Math.cos(ang) * len;
@@ -516,9 +576,8 @@ var tree = {
         grow(x2, y2, ang + off + (Math.random() - 0.5) * 0.18, len * (0.68 + Math.random() * 0.1), wid * 0.68, depth + 1, tBirth + 1);
       }
     }
-    grow(w / 2, h * 0.96, -Math.PI / 2, h * 0.23, Math.max(w, 200) * 0.022, 0, 0);
+    grow(w / 2, h * 0.96, -Math.PI / 2, h * 0.23, Math.max(w, 200) * 0.02, 0, 0);
   },
-  // 进入视口时调用：3 秒长完全树
   start: function(){
     if (this.started) return;
     this.started = true;
@@ -533,149 +592,270 @@ var tree = {
       else { self.done = true; }
     }
     this.raf = requestAnimationFrame(frame);
-    // 果实微光动画（长成后持续闪烁）
     (function glow(){
       if (self.done) self.draw(1);
       self.glowRaf = requestAnimationFrame(glow);
     })();
   },
-  // 绘制：t∈[0,1] 生长进度。born=枝条出生序（按深度），长度按进度截断
   draw: function(t){
     var ctx = this.ctx;
     ctx.clearRect(0, 0, this.w, this.h);
-    var glow = 0.5 + 0.5 * Math.sin(performance.now() * 0.003); // 呼吸微光
-    // 枝条：每根枝条在总进度里有自己的出生窗口
+    var ic = inkColor();
     var maxBorn = 8;
     for (var i = 0; i < this.branches.length; i++){
       var b = this.branches[i];
-      var bt = (t * (maxBorn + 1)) - b.born; // 该枝条自己的生长进度
+      var bt = (t * (maxBorn + 1)) - b.born;
       if (bt <= 0) continue;
       var k = Math.min(bt, 1);
       var x2 = b.x1 + (b.x2 - b.x1) * k;
       var y2 = b.y1 + (b.y2 - b.y1) * k;
       ctx.beginPath();
-      ctx.strokeStyle = "rgba(212,175,55," + (0.25 + 0.5 * k) + ")";
+      ctx.strokeStyle = "rgba(" + ic + "," + (0.35 + 0.55 * k) + ")";
       ctx.lineWidth = Math.max(b.wid * k, 0.6);
       ctx.lineCap = "round";
       ctx.moveTo(b.x1, b.y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
     }
-    // 果实：在末梢枝长成后出现，带微光
+    // 果实：墨色圆点+细环（印刷符号感），可点击
     for (var f = 0; f < this.fruits.length; f++){
       var fr = this.fruits[f];
       var ft = (t * (maxBorn + 1)) - fr.born;
       if (ft <= 0 || fr.picked) continue;
       var fk = Math.min(ft, 1);
-      var tw = 0.55 + 0.45 * Math.sin(performance.now() * 0.004 + f * 1.7);
-      ctx.globalAlpha = fk * tw;
-      ctx.fillStyle = "#ffd97a";
-      ctx.shadowColor = "#d4af37"; ctx.shadowBlur = 12;
+      var tw = 0.5 + 0.5 * Math.sin(performance.now() * 0.004 + f * 1.7);
+      ctx.globalAlpha = fk * (0.65 + 0.35 * tw);
+      ctx.fillStyle = "rgb(" + ic + ")";
       ctx.beginPath();
       ctx.arc(fr.x, fr.y, fr.r * fk, 0, Math.PI * 2);
       ctx.fill();
-      ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+      // 呼吸细环
+      ctx.globalAlpha = fk * 0.3 * tw;
+      ctx.strokeStyle = "rgb(" + ic + ")";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(fr.x, fr.y, fr.r * fk + 4 + 2 * tw, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
     }
   },
-  // 点击命中检测：距离果实中心 < r+14 判中
   pick: function(x, y){
     for (var i = this.fruits.length - 1; i >= 0; i--){
       var fr = this.fruits[i];
       if (fr.picked) continue;
       var dx = x - fr.x, dy = y - fr.y;
-      if (dx * dx + dy * dy < Math.pow(fr.r + 14, 2)){
+      if (dx * dx + dy * dy < Math.pow(fr.r + 16, 2)){
         fr.picked = true;
         this.dropFruit(fr);
         return;
       }
     }
   },
-  // 果实掉落动画 + 随机展开一条"尚未被实现的念头"
   dropFruit: function(fr){
     var self = this;
     var quote = QUOTES[(Math.random() * QUOTES.length) | 0];
-    var startY = fr.y, y = startY, vy = 0;
+    var y = fr.y, vy = 0;
+    var ic = inkColor();
     (function fall(){
       vy += 0.5; y += vy;
-      // 掉落轨迹画在 fx 层上：金色小粒子拖尾
-      fx.burst(fr.x, y, 2, ["#ffd97a", "#d4af37"], 0.6);
+      fx.burst(fr.x, y, 2, ["rgb(" + ic + ")"], 0.6);
       if (y < self.cv.getBoundingClientRect().height) requestAnimationFrame(fall);
       else {
-        // 展开随机一句话
+        if (!self._picked){ self._picked = true; var h = $("treeHint"); if (h) h.style.display = "none"; }
         var el = self.quoteEl;
-        el.textContent = "「 " + quote + " 」";
+        // 杂志式引用排版：段落编号+衬线句+等宽出处
+        el.innerHTML = '<div style="border-top:1px solid currentColor;border-bottom:1px solid currentColor;padding:18px 14px 14px"><div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;opacity:.5;margin-bottom:10px">UNREALIZED IDEA · No.' + String((Math.random()*99)|0 + 1).padStart(2,"0") + '</div><div style="font-family:var(--serif);font-size:clamp(17px,4.6vw,21px);letter-spacing:.1em;line-height:1.9">「 ' + quote + ' 」</div></div>';
         el.classList.remove("show");
-        void el.offsetWidth; // 强制重排，重触发过渡
+        void el.offsetWidth;
         el.classList.add("show");
       }
     })();
   }
 };
 
-/* ================= 第四屏：药丸选择 ================= */
+/* ================= 滚动编排（IntersectionObserver） ================= */
+function initReveals(){
+  var paras = document.querySelectorAll("#s2 .para");
+  if (!("IntersectionObserver" in window)){
+    for (var i = 0; i < paras.length; i++) paras[i].classList.add("show");
+    return;
+  }
+  // 段落淡入
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add("show"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.3 });
+  paras.forEach(function(p){ io.observe(p); });
+  // callout 淡入
+  var co = $("lawCallout");
+  if (co){
+    co.style.opacity = "0";
+    co.style.transition = "opacity 1.3s ease";
+    var ioC = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ co.style.opacity = "1"; ioC.unobserve(co); }
+      });
+    }, { threshold: 0.4 });
+    ioC.observe(co);
+  }
+  // 果树进入生长
+  var ioTree = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ tree.start(); ioTree.unobserve(en.target); }
+    });
+  }, { threshold: 0.35 });
+  ioTree.observe($("s3"));
+  // 星空只在深色屏可见（浅色页隐藏 canvas 内容）
+  var ioDark = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ stars.visible = true; }
+    });
+  }, { threshold: 0.35 });
+  ioDark.observe($("s1"));
+  var ioDark4 = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ stars.visible = true; } else { stars.visible = false; }
+    });
+  }, { threshold: 0.3 });
+  ioDark4.observe($("s4"));
+  var ioLight = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ stars.visible = false; }
+    });
+  }, { threshold: 0.3 });
+  ioLight.observe($("s2"));
+  ioLight.observe($("s3"));
+  // 序章粒子滚出暂停
+  var ioS1 = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ cosmos.visible = en.isIntersecting; });
+  }, { threshold: 0.05 });
+  ioS1.observe($("s1"));
+}
+/* ================= 药丸选择 ================= */
 var pills = {
   chosen: null, animating: false,
   init: function(){
     var self = this;
     $("pillRed").addEventListener("click", function(e){ self.choose("red", e); });
     $("pillBlue").addEventListener("click", function(e){ self.choose("blue", e); });
-    // 键盘可达性
     $("pillRed").addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") self.choose("red", e); });
     $("pillBlue").addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") self.choose("blue", e); });
     $("goSignup").addEventListener("click", function(){ self.openSignup(); });
+    $("rechoose").addEventListener("click", function(){ self.rechoose(); });
   },
   choose: function(mode, ev){
     if (this.animating) return;
     this.animating = true;
     this.chosen = mode;
-    localStorage.setItem("pill_choice", mode); // 存选择，回访问候用
+    localStorage.setItem("pill_choice", mode);
     var pillEl = $(mode === "red" ? "pillRed" : "pillBlue");
     var rect = pillEl.getBoundingClientRect();
     var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
-    // 1) 药丸放大飞向屏幕中心
+    // 药丸放大飞向屏幕中心（先停浮动动画）
+    pillEl.style.animation = "none";
     pillEl.style.transition = "transform .55s cubic-bezier(.6,0,.8,.2), opacity .55s ease";
     pillEl.style.transform = "translate(" + (window.innerWidth / 2 - cx) + "px," + (window.innerHeight / 2 - cy) + "px) scale(2.6)";
     pillEl.style.opacity = "0.9";
-    // 另一颗变暗退场
     var other = $(mode === "red" ? "pillBlue" : "pillRed");
     other.parentNode.classList.add("dim");
-    // 2) 550ms 后炸开成粒子 + 全屏变色
     var self = this;
     setTimeout(function(){
       pillEl.style.opacity = "0";
       var colors = mode === "red" ? ["#ff6a5e", "#d92b1f", "#ffd0c8"] : ["#7db3ff", "#2160e0", "#cfe0ff"];
       fx.burst(window.innerWidth / 2, window.innerHeight / 2, 90, colors, 4.5);
+      // 主题随选择偏移（纸面冷暖）
       document.body.classList.add(mode === "red" ? "mode-red" : "mode-blue");
-      // 3) 浮现确认句 + 报名按钮
+      var hint = document.querySelector("#s4 .tiny-hint");
+      if (hint) hint.style.display = "none";
       $("chosenMsg").textContent = mode === "red" ? RED_MSG : BLUE_MSG;
       $("chosenBlock").classList.add("show");
       setTimeout(function(){ self.animating = false; }, 400);
     }, 550);
   },
   openSignup: function(){
-    // 进入第五屏（报名跳转）
     $("s5").hidden = false;
     var red = this.chosen === "red";
     $("signupTitle").textContent = red ? "提交你的入境申请" : "登记你的观察者编号";
-    // 跳转链接统一引用 SIGNUP_URL 常量
     $("signupLink").href = SIGNUP_URL;
     $("copyLine").textContent = "如无法跳转，请复制链接到浏览器打开：" + SIGNUP_URL;
     $("s5").scrollIntoView({ behavior: "smooth" });
+  },
+  rechoose: function(){
+    $("gate").hidden = false;
+    $("gateQuiz").hidden = false;
+    $("gateOath").hidden = true;
+  },
+  hardReset: function(){
+    ["pillRed", "pillBlue"].forEach(function(id){
+      var el = $(id);
+      el.style.animation = "";
+      el.style.transition = "";
+      el.style.transform = "";
+      el.style.opacity = "";
+    });
+    $("pillRed").parentNode.classList.remove("dim");
+    $("pillBlue").parentNode.classList.remove("dim");
+    $("chosenBlock").classList.remove("show");
+    document.body.classList.remove("mode-red", "mode-blue");
+    this.chosen = null;
+    this.animating = false;
+    $("s5").hidden = true;
+    localStorage.removeItem("pill_choice");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 
-/* ================= 彩蛋：长按 3 秒烟花 ================= */
+/* ================= 入境考验（仪式门） ================= */
+function showToast(msg){
+  var t = $("gateToast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+}
+var gate = {
+  init: function(){
+    var opts = document.querySelectorAll(".gate-opt");
+    for (var i = 0; i < opts.length; i++){
+      opts[i].addEventListener("click", function(){
+        if (this.getAttribute("data-r") === "1"){
+          $("gateQuiz").hidden = true;
+          $("gateOath").hidden = false;
+        } else {
+          showToast(this.getAttribute("data-t") || "再想想？答案就写在刚才的故事里。");
+        }
+      });
+    }
+    $("gateAccept").addEventListener("click", function(){ $("gate").hidden = true; });
+    $("gateReset").addEventListener("click", function(){
+      $("gate").hidden = true;
+      var W = window.innerWidth, H = window.innerHeight;
+      var ic = inkColor(), pc = paperColor();
+      for (var k = 0; k < 5; k++){
+        (function(delay, idx){
+          setTimeout(function(){
+            fx.burst(W / 2, H / 2, 90, ["rgb(" + ic + ")", "rgb(" + pc + ")"], 6 - idx * 0.5);
+          }, delay);
+        })(k * 180, k);
+      }
+      pills.hardReset();
+    });
+  }
+};
+
+/* ================= 长按烟花彩蛋 ================= */
 function initFirework(){
   var timer = null, sx = 0, sy = 0;
   function start(e){
     var t = e.touches ? e.touches[0] : e;
     sx = t.clientX; sy = t.clientY;
     timer = setTimeout(function(){
-      fx.burst(sx, sy, 70, ["#d4af37", "#6b4fa0", "#cfd6ff", "#ffd97a"], 3.6);
+      var ic = inkColor(), pc = paperColor();
+      fx.burst(sx, sy, 70, ["rgb(" + ic + ")", "rgb(" + pc + ")"], 3.6);
     }, 3000);
   }
   function cancel(){ if (timer){ clearTimeout(timer); timer = null; } }
-  // 只在非按钮/药丸/画布区域触发，避免干扰主交互
   document.body.addEventListener("touchstart", function(e){
     if (e.target.closest && e.target.closest("button, a, .pill, canvas")) return;
     start(e);
@@ -689,23 +869,22 @@ function initFirework(){
   document.body.addEventListener("mouseup", cancel);
 }
 
-/* ================= 回访问候（localStorage） ================= */
+/* ================= 回访问候 ================= */
 function initWelcomeBack(){
   var saved = localStorage.getItem("pill_choice");
   if (!saved) return;
   var el = $("welcomeBack");
-  el.textContent = saved === "red" ? "欢迎回来，造物者" : "欢迎回来，围观者";
-  el.classList.add("back"); el.classList.add("show");
-  setTimeout(function(){ el.classList.remove("show"); }, 6000); // 6 秒后隐去
+  el.textContent = saved === "red" ? "欢迎回来，造物者 · Welcome Back, Maker" : "欢迎回来，围观者 · Welcome Back, Watcher";
+  el.classList.add("show");
+  setTimeout(function(){ el.classList.remove("show"); }, 6000);
 }
 
 /* ================= 启动 ================= */
 function boot(){
-  stars.init(); fx.init(); cosmos.init(); tree.init(); pills.init();
+  fx.init(); stars.init(); cosmos.init(); tree.init(); pills.init(); gate.init();
   initReveals(); initFirework(); initWelcomeBack();
   typer.start($("typeline"), TYPE_TEXT);
 }
-// DOM 就绪即启动（脚本位于 body 末尾，元素已就位）
 boot();
 
 </script>
