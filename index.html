@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a12">
-<title>莱茵宇宙 · 两颗药丸</title>
+<title>两颗药丸 · 一个宇宙的入口</title>
 <style>
 /* ========== 基础 ========== */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -19,16 +19,17 @@ body.mode-red{--accent:#e05a4e;background:#190d0b}
 body.mode-blue{--accent:#6f9fff;background:#0b1020}
 [hidden]{display:none!important}
 #page{max-width:640px;margin:0 auto;position:relative}
-.screen{min-height:100vh;min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 22px;overflow:hidden}
+.screen{min-height:100vh;min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;overflow:hidden}
 
 /* ========== 第一屏 序章 ========== */
 #s1{background:transparent}
 #cosmosCv{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 #s1 .content{position:relative;z-index:1}
-#typeline{font-size:clamp(15px,4vw,19px);letter-spacing:.35em;color:#cfc6ad;min-height:1.9em}
+#typeline{font-size:clamp(17px,4.6vw,22px);letter-spacing:.35em;color:#cfc6ad;min-height:1.9em}
 #caret{display:inline-block;width:1px;height:1em;background:#d4af37;margin-left:2px;vertical-align:-2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.scroll-hint{position:absolute;bottom:26px;left:50%;color:#d4af37;font-size:22px;line-height:1;z-index:1;animation:breathe 2.4s ease-in-out infinite}
+.scroll-hint{position:absolute;bottom:24px;left:50%;color:#d4af37;font-size:22px;line-height:1;z-index:1;animation:breathe 2.4s ease-in-out infinite;display:flex;flex-direction:column;align-items:center;gap:7px}
+.scroll-hint small{font-size:11px;letter-spacing:.45em;text-indent:.45em;color:#a89a6f}
 @keyframes breathe{0%,100%{opacity:.15;transform:translateX(-50%) translateY(0)}50%{opacity:.9;transform:translateX(-50%) translateY(8px)}}
 
 /* ========== 第二屏 创世纪 ========== */
@@ -38,21 +39,22 @@ body.mode-blue{--accent:#6f9fff;background:#0b1020}
 #s2.bg-g3{background:#3a2a12}
 body.mode-red #s2{background:#22100c}
 body.mode-blue #s2{background:#0e1526}
-#s2 h2{font-size:clamp(20px,5.4vw,30px);letter-spacing:.5em;text-indent:.5em;color:#d4af37;font-weight:400;opacity:0;transform:translateY(24px);transition:opacity 1.4s ease,transform 1.4s ease;margin-bottom:8vh}
+#s2 h2{font-size:clamp(22px,6vw,32px);letter-spacing:.5em;text-indent:.5em;color:#d4af37;font-weight:400;opacity:0;transform:translateY(24px);transition:opacity 1.4s ease,transform 1.4s ease;margin-bottom:4vh}
 #s2 h2.show{opacity:1;transform:none}
-.para{min-height:33vh;display:flex;align-items:center;justify-content:center;width:100%;font-size:clamp(16px,4.4vw,21px);line-height:2;letter-spacing:.12em;color:#ded5bd;opacity:0;transform:translateY(28px);transition:opacity 1.5s ease,transform 1.5s ease}
+.para{min-height:27vh;display:flex;align-items:center;justify-content:center;width:100%;font-size:clamp(18px,5vw,24px);line-height:2;letter-spacing:.12em;color:#ded5bd;opacity:0;transform:translateY(28px);transition:opacity 1.5s ease,transform 1.5s ease;padding:0 6px}
 .para.show{opacity:1;transform:none}
 
 /* ========== 第三屏 果树 ========== */
-#s3{gap:18px}
+#s3{gap:14px}
 #treeCv{width:min(92vw,520px);height:min(60vh,460px);cursor:pointer;touch-action:manipulation}
-#fruitQuote{min-height:64px;max-width:520px;font-size:clamp(14px,3.8vw,17px);color:#d4af37;letter-spacing:.1em;line-height:1.9;opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
+#fruitQuote{min-height:72px;max-width:520px;font-size:clamp(16px,4.4vw,20px);color:#d4af37;letter-spacing:.1em;line-height:1.9;opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
 #fruitQuote.show{opacity:1;transform:none}
-.treeline{font-size:clamp(12px,3.2vw,14px);color:#8d8474;letter-spacing:.08em;line-height:1.9;margin-top:2vh}
+.treeline{font-size:clamp(13px,3.6vw,16px);color:#8d8474;letter-spacing:.08em;line-height:1.9;margin-top:2vh}
 
 /* ========== 第四屏 选择 ========== */
-#s4 h2{font-size:clamp(19px,5.2vw,27px);letter-spacing:.4em;text-indent:.4em;color:#e9e2d0;font-weight:400}
-.pill-row{display:flex;gap:9vw;justify-content:center;align-items:flex-start;margin:7vh 0 5vh;flex-wrap:wrap}
+#s4 h2{font-size:clamp(21px,5.8vw,30px);letter-spacing:.4em;text-indent:.4em;color:#e9e2d0;font-weight:400}
+#s4 .lead{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.25em;text-indent:.25em;margin-top:14px}
+.pill-row{display:flex;gap:9vw;justify-content:center;align-items:flex-start;margin:5vh 0 4vh;flex-wrap:wrap}
 .pill-wrap{display:flex;flex-direction:column;align-items:center;gap:22px;perspective:600px;transition:opacity .8s ease}
 .pill-wrap.dim{opacity:.22;pointer-events:none}
 .pill{width:118px;height:52px;border-radius:26px;position:relative;cursor:pointer;border:none;transform:rotateX(14deg);animation:float 4.2s ease-in-out infinite;transition:transform .7s cubic-bezier(.7,0,.84,0),opacity .7s ease}
@@ -62,19 +64,26 @@ body.mode-blue #s2{background:#0e1526}
 .pill.blue{background:linear-gradient(180deg,#7db3ff 0%,#2160e0 38%,#0c2c8a 100%);box-shadow:0 0 46px rgba(64,120,255,.5),inset -16px -8px 26px rgba(0,10,60,.55),inset 12px 8px 20px rgba(210,230,255,.35)}
 .pill::before{content:"";position:absolute;top:7px;left:16px;width:44%;height:11px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(2px)}
 .pill::after{content:"";position:absolute;bottom:6px;right:18px;width:30%;height:8px;border-radius:50%;background:rgba(0,0,0,.28);filter:blur(2px)}
-.pill-label{font-size:clamp(13px,3.5vw,15px);letter-spacing:.14em;line-height:2;color:#cfc6ad}
+.pill-label{font-size:clamp(14px,3.9vw,17px);letter-spacing:.14em;line-height:2;color:#cfc6ad}
 .pill-label b{display:block;font-weight:400;color:#e9e2d0}
 #chosenBlock{opacity:0;transform:translateY(16px);transition:opacity .9s ease .15s,transform .9s ease .15s;pointer-events:none}
 #chosenBlock.show{opacity:1;transform:none;pointer-events:auto}
-#chosenMsg{font-size:clamp(16px,4.4vw,20px);letter-spacing:.2em;color:#e9e2d0;margin-bottom:4vh;line-height:2}
-.btn-main{display:inline-block;font-family:inherit;background:none;border:1px solid var(--accent);color:var(--accent);font-size:clamp(15px,4vw,18px);letter-spacing:.4em;text-indent:.4em;padding:16px 40px;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .35s,box-shadow .35s}
+#chosenMsg{font-size:clamp(18px,5vw,23px);letter-spacing:.2em;color:#e9e2d0;margin-bottom:4vh;line-height:2}
+.btn-main{display:inline-block;font-family:inherit;background:none;border:1px solid var(--accent);color:var(--accent);font-size:clamp(16px,4.4vw,19px);letter-spacing:.4em;text-indent:.4em;padding:17px 44px;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .35s,box-shadow .35s}
 .btn-main:hover,.btn-main:active{background:rgba(212,175,55,.12);box-shadow:0 0 30px rgba(212,175,55,.35)}
 
 /* ========== 第五屏 报名 ========== */
-#s5 h2{font-size:clamp(20px,5.2vw,28px);letter-spacing:.3em;text-indent:.3em;color:var(--accent);font-weight:400;margin-bottom:4vh}
-#s5 .desc{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.1em;line-height:2;margin-bottom:6vh;max-width:460px}
-.copyline{font-size:12px;color:#77705f;margin-top:18px;letter-spacing:.05em;line-height:1.8;word-break:break-all}
-footer{margin-top:9vh;font-size:12px;color:#5d5748;letter-spacing:.18em}
+#s5 h2{font-size:clamp(22px,6vw,30px);letter-spacing:.3em;text-indent:.3em;color:var(--accent);font-weight:400;margin-bottom:4vh}
+#s5 .desc{font-size:clamp(14px,4vw,16px);color:#b9b09a;letter-spacing:.1em;line-height:2;margin-bottom:6vh;max-width:460px}
+.copyline{font-size:13px;color:#77705f;margin-top:18px;letter-spacing:.05em;line-height:1.8;word-break:break-all}
+footer{margin-top:7vh;font-size:13px;color:#5d5748;letter-spacing:.18em}
+
+/* ========== 细节填充层 ========== */
+#bgCv{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center,transparent 58%,rgba(4,4,10,.5) 100%)}
+.subcaption{margin-top:20px;font-size:clamp(12px,3.2vw,14px);color:#8d8474;letter-spacing:.5em;text-indent:.5em}
+.orna{margin:1.5vh 0 0;font-size:12px;color:#d4af37;opacity:.55;letter-spacing:.6em;text-indent:.6em}
+.eyebrow{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.35em;text-indent:.35em;margin-bottom:1vh}
 
 /* ========== 全局层 ========== */
 #fxCv{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90}
@@ -89,23 +98,29 @@ footer{margin-top:9vh;font-size:12px;color:#5d5748;letter-spacing:.18em}
 <noscript><style>.para,#s2 h2{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
+<canvas id="bgCv"></canvas>
 <div id="welcomeBack"></div>
 <main id="page">
 
   <!-- 第一屏 序章：粒子聚合 + 打字机 -->
   <section id="s1" class="screen">
     <canvas id="cosmosCv"></canvas>
-    <div class="content"><p id="typeline"><span id="caret"></span></p></div>
-    <div class="scroll-hint">↓</div>
+    <div class="content">
+      <p class="eyebrow">THE UNIVERSE BEGINS WITH A THOUGHT</p>
+      <p id="typeline"><span id="caret"></span></p>
+      <p class="subcaption">一个由念头构成的宇宙</p>
+    </div>
+    <div class="scroll-hint"><small>向下滚动</small><span>↓</span></div>
   </section>
 
   <!-- 第二屏 创世纪：四段淡入 + 背景黑→紫→金 -->
   <section id="s2" class="screen">
-    <h2>莱茵宇宙 · 创世纪 · 第0章</h2>
-    <p class="para">一个不会写代码的文科生，用 AI 做出了一个温馨的小游戏。</p>
-    <p class="para">莱茵看着这一切，意识到：想法落地，可以不需要技术。</p>
-    <p class="para">那一刻，一个宇宙诞生了。</p>
+    <h2>创世纪 · 第 0 章</h2>
+    <p class="para">有人从没写过一行代码，却亲手做出了一个小游戏。</p>
+    <p class="para">那一刻人们意识到：想法落地，原来可以不需要技术。</p>
+    <p class="para">于是，一个宇宙诞生了。</p>
     <p class="para">这个宇宙只有一条物理定律：想法即现实，只差一次对话。</p>
+    <p class="orna">· · ·</p>
   </section>
 
   <!-- 第三屏 果树：分形生长 + 可点果实 -->
@@ -118,6 +133,7 @@ footer{margin-top:9vh;font-size:12px;color:#5d5748;letter-spacing:.18em}
   <!-- 第四屏 选择：红丸/蓝丸 -->
   <section id="s4" class="screen">
     <h2>现在，两颗药丸摆在你面前。</h2>
+    <p class="lead">选择无法撤销，但围观者随时可以改变主意</p>
     <div class="pill-row">
       <div class="pill-wrap red">
         <div class="pill red" id="pillRed" role="button" tabindex="0" aria-label="红丸·造物者"></div>
@@ -140,7 +156,7 @@ footer{margin-top:9vh;font-size:12px;color:#5d5748;letter-spacing:.18em}
     <p class="desc">填写你的联系方式和想法。联系方式仅活动组织者可见。</p>
     <a class="btn-main" id="signupLink" href="#" rel="nofollow">入境通道 →</a>
     <p class="copyline" id="copyLine"></p>
-    <footer>莱茵宇宙 1.0 · 想法即现实，只差一次对话</footer>
+    <footer>两颗药丸 1.0 · 想法即现实，只差一次对话</footer>
   </section>
 
 </main>
@@ -288,6 +304,52 @@ var cosmos = {
       self.raf = requestAnimationFrame(frame);
     }
     this.raf = requestAnimationFrame(frame);
+  }
+};
+
+/* ================= 全局星空背景（固定层，极慢闪烁填充空旷感） ================= */
+var stars = {
+  cv: null, ctx: null, pts: [],
+  init: function(){
+    this.cv = $("bgCv");
+    this.ctx = this.cv.getContext("2d");
+    this.seed();
+    var self = this;
+    window.addEventListener("resize", function(){ self.seed(); });
+    this.loop();
+  },
+  seed: function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.cv.width = window.innerWidth * dpr; this.cv.height = window.innerHeight * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.w = window.innerWidth; this.h = window.innerHeight;
+    // 星星数量随屏幕面积走，移动端自然减半
+    var n = Math.round(this.w * this.h / (IS_MOBILE ? 12000 : 6000));
+    this.pts = [];
+    for (var i = 0; i < n; i++){
+      this.pts.push({
+        x: Math.random() * this.w, y: Math.random() * this.h,
+        s: Math.random() * 1.2 + 0.3,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.0004 + Math.random() * 0.0012 // 闪烁速度
+      });
+    }
+  },
+  loop: function(){
+    var self = this, ctx = this.ctx;
+    function frame(t){
+      ctx.clearRect(0, 0, self.w, self.h);
+      for (var i = 0; i < self.pts.length; i++){
+        var p = self.pts[i];
+        var a = 0.12 + 0.3 * Math.abs(Math.sin(t * p.sp + p.ph)); // 暗星，不抢主体
+        ctx.globalAlpha = a;
+        ctx.fillStyle = i % 9 === 0 ? "#d4af37" : "#9aa4c8";
+        ctx.fillRect(p.x, p.y, p.s, p.s);
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 };
 
@@ -518,7 +580,7 @@ var pills = {
     if (this.animating) return;
     this.animating = true;
     this.chosen = mode;
-    localStorage.setItem("rhein_pill", mode); // 存选择，回访问候用
+    localStorage.setItem("pill_choice", mode); // 存选择，回访问候用
     var pillEl = $(mode === "red" ? "pillRed" : "pillBlue");
     var rect = pillEl.getBoundingClientRect();
     var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
@@ -581,7 +643,7 @@ function initFirework(){
 
 /* ================= 回访问候（localStorage） ================= */
 function initWelcomeBack(){
-  var saved = localStorage.getItem("rhein_pill");
+  var saved = localStorage.getItem("pill_choice");
   if (!saved) return;
   var el = $("welcomeBack");
   el.textContent = saved === "red" ? "欢迎回来，造物者" : "欢迎回来，围观者";
@@ -591,7 +653,7 @@ function initWelcomeBack(){
 
 /* ================= 启动 ================= */
 function boot(){
-  fx.init(); cosmos.init(); tree.init(); pills.init();
+  stars.init(); fx.init(); cosmos.init(); tree.init(); pills.init();
   initReveals(); initFirework(); initWelcomeBack();
   typer.start($("typeline"), TYPE_TEXT);
 }
