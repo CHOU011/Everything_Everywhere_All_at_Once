@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a12">
+<title>莱茵宇宙 · 两颗药丸</title>
+<style>
+/* ========== 基础 ========== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  --accent:#d4af37;
+  background:#0a0a12;color:#e9e2d0;
+  font-family:"Songti SC","STSongti-SC","SimSun","宋体","Noto Serif CJK SC","Noto Serif SC",serif;
+  overflow-x:hidden;transition:background-color 1.2s ease;
+}
+body.mode-red{--accent:#e05a4e;background:#190d0b}
+body.mode-blue{--accent:#6f9fff;background:#0b1020}
+[hidden]{display:none!important}
+#page{max-width:640px;margin:0 auto;position:relative}
+.screen{min-height:100vh;min-height:100svh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 22px;overflow:hidden}
+
+/* ========== 第一屏 序章 ========== */
+#s1{background:transparent}
+#cosmosCv{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#s1 .content{position:relative;z-index:1}
+#typeline{font-size:clamp(15px,4vw,19px);letter-spacing:.35em;color:#cfc6ad;min-height:1.9em}
+#caret{display:inline-block;width:1px;height:1em;background:#d4af37;margin-left:2px;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.scroll-hint{position:absolute;bottom:26px;left:50%;color:#d4af37;font-size:22px;line-height:1;z-index:1;animation:breathe 2.4s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.15;transform:translateX(-50%) translateY(0)}50%{opacity:.9;transform:translateX(-50%) translateY(8px)}}
+
+/* ========== 第二屏 创世纪 ========== */
+#s2{justify-content:flex-start;padding-top:15vh;background:#0a0a12;transition:background-color 2.8s linear}
+#s2.bg-g1{background:#16102c}
+#s2.bg-g2{background:#2a1d4e}
+#s2.bg-g3{background:#3a2a12}
+body.mode-red #s2{background:#22100c}
+body.mode-blue #s2{background:#0e1526}
+#s2 h2{font-size:clamp(20px,5.4vw,30px);letter-spacing:.5em;text-indent:.5em;color:#d4af37;font-weight:400;opacity:0;transform:translateY(24px);transition:opacity 1.4s ease,transform 1.4s ease;margin-bottom:8vh}
+#s2 h2.show{opacity:1;transform:none}
+.para{min-height:33vh;display:flex;align-items:center;justify-content:center;width:100%;font-size:clamp(16px,4.4vw,21px);line-height:2;letter-spacing:.12em;color:#ded5bd;opacity:0;transform:translateY(28px);transition:opacity 1.5s ease,transform 1.5s ease}
+.para.show{opacity:1;transform:none}
+
+/* ========== 第三屏 果树 ========== */
+#s3{gap:18px}
+#treeCv{width:min(92vw,520px);height:min(60vh,460px);cursor:pointer;touch-action:manipulation}
+#fruitQuote{min-height:64px;max-width:520px;font-size:clamp(14px,3.8vw,17px);color:#d4af37;letter-spacing:.1em;line-height:1.9;opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease}
+#fruitQuote.show{opacity:1;transform:none}
+.treeline{font-size:clamp(12px,3.2vw,14px);color:#8d8474;letter-spacing:.08em;line-height:1.9;margin-top:2vh}
+
+/* ========== 第四屏 选择 ========== */
+#s4 h2{font-size:clamp(19px,5.2vw,27px);letter-spacing:.4em;text-indent:.4em;color:#e9e2d0;font-weight:400}
+.pill-row{display:flex;gap:9vw;justify-content:center;align-items:flex-start;margin:7vh 0 5vh;flex-wrap:wrap}
+.pill-wrap{display:flex;flex-direction:column;align-items:center;gap:22px;perspective:600px;transition:opacity .8s ease}
+.pill-wrap.dim{opacity:.22;pointer-events:none}
+.pill{width:118px;height:52px;border-radius:26px;position:relative;cursor:pointer;border:none;transform:rotateX(14deg);animation:float 4.2s ease-in-out infinite;transition:transform .7s cubic-bezier(.7,0,.84,0),opacity .7s ease}
+.pill-wrap.blue .pill{animation-delay:1.1s}
+@keyframes float{0%,100%{transform:rotateX(14deg) translateY(0)}50%{transform:rotateX(14deg) translateY(-14px)}}
+.pill.red{background:linear-gradient(180deg,#ff6a5e 0%,#d92b1f 38%,#8f1409 100%);box-shadow:0 0 46px rgba(224,74,60,.55),inset -16px -8px 26px rgba(60,0,0,.55),inset 12px 8px 20px rgba(255,210,190,.35)}
+.pill.blue{background:linear-gradient(180deg,#7db3ff 0%,#2160e0 38%,#0c2c8a 100%);box-shadow:0 0 46px rgba(64,120,255,.5),inset -16px -8px 26px rgba(0,10,60,.55),inset 12px 8px 20px rgba(210,230,255,.35)}
+.pill::before{content:"";position:absolute;top:7px;left:16px;width:44%;height:11px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(2px)}
+.pill::after{content:"";position:absolute;bottom:6px;right:18px;width:30%;height:8px;border-radius:50%;background:rgba(0,0,0,.28);filter:blur(2px)}
+.pill-label{font-size:clamp(13px,3.5vw,15px);letter-spacing:.14em;line-height:2;color:#cfc6ad}
+.pill-label b{display:block;font-weight:400;color:#e9e2d0}
+#chosenBlock{opacity:0;transform:translateY(16px);transition:opacity .9s ease .15s,transform .9s ease .15s;pointer-events:none}
+#chosenBlock.show{opacity:1;transform:none;pointer-events:auto}
+#chosenMsg{font-size:clamp(16px,4.4vw,20px);letter-spacing:.2em;color:#e9e2d0;margin-bottom:4vh;line-height:2}
+.btn-main{display:inline-block;font-family:inherit;background:none;border:1px solid var(--accent);color:var(--accent);font-size:clamp(15px,4vw,18px);letter-spacing:.4em;text-indent:.4em;padding:16px 40px;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .35s,box-shadow .35s}
+.btn-main:hover,.btn-main:active{background:rgba(212,175,55,.12);box-shadow:0 0 30px rgba(212,175,55,.35)}
+
+/* ========== 第五屏 报名 ========== */
+#s5 h2{font-size:clamp(20px,5.2vw,28px);letter-spacing:.3em;text-indent:.3em;color:var(--accent);font-weight:400;margin-bottom:4vh}
+#s5 .desc{font-size:clamp(13px,3.6vw,15px);color:#b9b09a;letter-spacing:.1em;line-height:2;margin-bottom:6vh;max-width:460px}
+.copyline{font-size:12px;color:#77705f;margin-top:18px;letter-spacing:.05em;line-height:1.8;word-break:break-all}
+footer{margin-top:9vh;font-size:12px;color:#5d5748;letter-spacing:.18em}
+
+/* ========== 全局层 ========== */
+#fxCv{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:90}
+#welcomeBack{position:fixed;top:0;left:0;right:0;z-index:99;text-align:center;padding:12px 16px;font-size:12px;letter-spacing:.3em;color:var(--accent);background:rgba(10,10,18,.72);opacity:0;transform:translateY(-100%);transition:opacity 1s ease,transform 1s ease}
+#welcomeBack.show{opacity:1;transform:none}
+
+@media (min-width:641px){
+  .pill{width:140px;height:62px;border-radius:31px}
+  #s2{padding-top:18vh}
+}
+</style>
+<noscript><style>.para,#s2 h2{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div id="welcomeBack"></div>
+<main id="page">
+
+  <!-- 第一屏 序章：粒子聚合 + 打字机 -->
+  <section id="s1" class="screen">
+    <canvas id="cosmosCv"></canvas>
+    <div class="content"><p id="typeline"><span id="caret"></span></p></div>
+    <div class="scroll-hint">↓</div>
+  </section>
+
+  <!-- 第二屏 创世纪：四段淡入 + 背景黑→紫→金 -->
+  <section id="s2" class="screen">
+    <h2>莱茵宇宙 · 创世纪 · 第0章</h2>
+    <p class="para">一个不会写代码的文科生，用 AI 做出了一个温馨的小游戏。</p>
+    <p class="para">莱茵看着这一切，意识到：想法落地，可以不需要技术。</p>
+    <p class="para">那一刻，一个宇宙诞生了。</p>
+    <p class="para">这个宇宙只有一条物理定律：想法即现实，只差一次对话。</p>
+  </section>
+
+  <!-- 第三屏 果树：分形生长 + 可点果实 -->
+  <section id="s3" class="screen">
+    <canvas id="treeCv"></canvas>
+    <div id="fruitQuote"></div>
+    <p class="treeline">果树不结苹果，只结尚未被实现的念头。<br>水与阳光(token)对所有人免费——这是本宇宙的第一条承诺。</p>
+  </section>
+
+  <!-- 第四屏 选择：红丸/蓝丸 -->
+  <section id="s4" class="screen">
+    <h2>现在，两颗药丸摆在你面前。</h2>
+    <div class="pill-row">
+      <div class="pill-wrap red">
+        <div class="pill red" id="pillRed" role="button" tabindex="0" aria-label="红丸·造物者"></div>
+        <p class="pill-label"><b>红丸 · 造物者</b>我有想法，我要把它做出来</p>
+      </div>
+      <div class="pill-wrap blue">
+        <div class="pill blue" id="pillBlue" role="button" tabindex="0" aria-label="蓝丸·围观者"></div>
+        <p class="pill-label"><b>蓝丸 · 围观者</b>我先看看，这个世界会长成什么样</p>
+      </div>
+    </div>
+    <div id="chosenBlock">
+      <p id="chosenMsg"></p>
+      <button class="btn-main" id="goSignup">前往报名</button>
+    </div>
+  </section>
+
+  <!-- 第五屏 报名跳转：点击前往报名后展示 -->
+  <section id="s5" class="screen" hidden>
+    <h2 id="signupTitle">提交你的入境申请</h2>
+    <p class="desc">填写你的联系方式和想法。联系方式仅活动组织者可见。</p>
+    <a class="btn-main" id="signupLink" href="#" rel="nofollow">入境通道 →</a>
+    <p class="copyline" id="copyLine"></p>
+    <footer>莱茵宇宙 1.0 · 想法即现实，只差一次对话</footer>
+  </section>
+
+</main>
+<canvas id="fxCv"></canvas>
+<script>
+"use strict";
+/* ================= 常量配置 ================= */
+// 替换为正式报名表单链接（全页所有跳转统一引用此常量，改这一处即可）
+var SIGNUP_URL = "https://www.baidu.com";
+var TYPE_TEXT = "起初，只有一个念头。";
+var RED_MSG = "欢迎，造物者。留下你的名字和念头。";
+var BLUE_MSG = "欢迎，围观者。你可以随时改变主意。";
+// 12 条"尚未被实现的念头"（果树彩蛋文案）
+var QUOTES = [
+  "给楼下猫写一份简历",
+  "用网页做一个只会说晚安的收音机",
+  "把梦做成可以点击的地图",
+  "给十年后的自己写一封会迟到的信",
+  "把奶奶的菜谱做成一张可探索的星图",
+  "做一盏只在天黑时才存在的灯",
+  "为雨声办一场没有观众的演奏会",
+  "把聊天记录酿成一瓶酒",
+  "给迷路的快递员画一张藏宝图",
+  "做一个只装得下一句话的漂流瓶",
+  "让电梯里的广告位轮流放诗",
+  "把今天的云收藏进一个抽屉"
+];
+
+/* ================= 小工具 ================= */
+function $(id){ return document.getElementById(id); }
+// 判断移动端：粒子数量减半，保 60fps
+var IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 640;
+
+/* ================= 全局粒子层（烟花/药丸炸开共用） ================= */
+var fx = {
+  cv: null, ctx: null, parts: [], running: false,
+  init: function(){
+    this.cv = $("fxCv");
+    this.ctx = this.cv.getContext("2d");
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+  },
+  resize: function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.cv.width = window.innerWidth * dpr;
+    this.cv.height = window.innerHeight * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  },
+  // 在 (x,y) 生成 n 个粒子（颜色可选数组，随机取）
+  burst: function(x, y, n, colors, speed){
+    var cnt = IS_MOBILE ? Math.ceil(n / 2) : n;
+    for (var i = 0; i < cnt; i++){
+      var a = Math.random() * Math.PI * 2;
+      var v = (0.5 + Math.random()) * (speed || 3);
+      this.parts.push({
+        x: x, y: y,
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+        life: 1, decay: 0.008 + Math.random() * 0.012,
+        r: 1 + Math.random() * 2.4,
+        color: colors ? colors[(Math.random() * colors.length) | 0] : "#d4af37"
+      });
+    }
+    if (!this.running){ this.running = true; this.loop(); }
+  },
+  loop: function(){
+    var self = this, ctx = this.ctx;
+    function frame(){
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (var i = self.parts.length - 1; i >= 0; i--){
+        var p = self.parts[i];
+        p.x += p.vx; p.y += p.vy;
+        p.vy += 0.02; // 轻微重力
+        p.vx *= 0.99; p.vy *= 0.99;
+        p.life -= p.decay;
+        if (p.life <= 0){ self.parts.splice(i, 1); continue; }
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (self.parts.length){ requestAnimationFrame(frame); }
+      else { self.running = false; ctx.clearRect(0, 0, window.innerWidth, window.innerHeight); }
+    }
+    requestAnimationFrame(frame);
+  }
+};
+
+/* ================= 第一屏：深空粒子聚合 ================= */
+var cosmos = {
+  cv: null, ctx: null, pts: [], raf: null, visible: true,
+  init: function(){
+    this.cv = $("cosmosCv");
+    this.ctx = this.cv.getContext("2d");
+    this.resize(); this.seed();
+    var self = this;
+    window.addEventListener("resize", function(){ self.resize(); self.seed(); });
+    this.loop();
+  },
+  resize: function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var r = this.cv.getBoundingClientRect();
+    this.cv.width = r.width * dpr; this.cv.height = r.height * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.w = r.width; this.h = r.height;
+  },
+  // 粒子围绕中心缓慢旋转聚合（移动端数量减半）
+  seed: function(){
+    var n = (IS_MOBILE ? 70 : 140), cx = this.w / 2, cy = this.h / 2;
+    this.pts = [];
+    for (var i = 0; i < n; i++){
+      this.pts.push({
+        a: Math.random() * Math.PI * 2,          // 极角
+        r: 30 + Math.random() * Math.min(this.w, this.h) * 0.42, // 极径
+        vr: (Math.random() - 0.5) * 0.18,        // 极径呼吸速度
+        va: 0.0016 + Math.random() * 0.0032,     // 旋转角速度
+        s: 0.6 + Math.random() * 1.6,            // 粒径
+        tw: Math.random() * Math.PI * 2          // 闪烁相位
+      });
+    }
+  },
+  loop: function(){
+    var self = this;
+    function frame(t){
+      if (!self.visible){ self.raf = requestAnimationFrame(frame); return; }
+      var ctx = self.ctx;
+      ctx.clearRect(0, 0, self.w, self.h);
+      var cx = self.w / 2, cy = self.h / 2;
+      for (var i = 0; i < self.pts.length; i++){
+        var p = self.pts[i];
+        p.a += p.va;                    // 缓慢公转
+        p.r += p.vr;                    // 呼吸式靠近/远离
+        if (p.r < 26 || p.r > Math.min(self.w, self.h) * 0.46) p.vr *= -1;
+        var x = cx + Math.cos(p.a) * p.r;
+        var y = cy + Math.sin(p.a) * p.r * 0.72; // 椭圆轨道，更立体
+        var tw = 0.35 + 0.65 * Math.abs(Math.sin(t * 0.001 + p.tw)); // 闪烁
+        ctx.globalAlpha = tw * 0.85;
+        ctx.fillStyle = i % 7 === 0 ? "#d4af37" : "#cfd6ff";
+        ctx.beginPath();
+        ctx.arc(x, y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      self.raf = requestAnimationFrame(frame);
+    }
+    this.raf = requestAnimationFrame(frame);
+  }
+};
+
+/* ================= 打字机效果（第一屏） ================= */
+var typer = {
+  start: function(el, text){
+    if (this._t) return; // 防重入
+    var i = 0;
+    var caret = el.querySelector("#caret") || el.lastChild;
+    function step(){
+      if (i <= text.length){
+        // 逐字插入到光标前
+        var span = document.createTextNode(text.slice(0, i));
+        if (el._typed) el.removeChild(el._typed);
+        el._typed = el.insertBefore(span, caret);
+        i++;
+        setTimeout(step, 140 + Math.random() * 120); // 逐字节奏微随机，更像"念头"
+      }
+    }
+    setTimeout(step, 900); // 页面加载后先静默一拍
+  }
+};
+
+/* ================= 滚动淡入（IntersectionObserver，非 scroll 监听） ================= */
+function initReveals(){
+  if (!("IntersectionObserver" in window)){
+    // 兜底：不支持 IO 时直接全显
+    var all = document.querySelectorAll(".para, #s2 h2");
+    for (var i = 0; i < all.length; i++) all[i].classList.add("show");
+    return;
+  }
+  // 段落：进入视口 30% 即淡入
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add("show"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll(".para").forEach(function(p){ io.observe(p); });
+  // 标题 + 第二屏背景渐变（黑→紫→金），按段落序号切换
+  var s2 = $("s2");
+  var stages = ["", "bg-g1", "bg-g2", "bg-g3"];
+  var ioH = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      h2.classList.add("show");
+    });
+  }, { threshold: 0.6 });
+  var h2 = document.querySelector("#s2 h2");
+  if (h2) ioH.observe(h2);
+  // 背景分段渐变：观察 4 个段落，每进入一段推进一步色阶
+  var idx = 0;
+  var ioBg = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var k = Array.prototype.indexOf.call(document.querySelectorAll(".para"), en.target);
+      if (k > idx) idx = k;
+      s2.className = "screen " + stages[Math.min(idx + 1, 3)];
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll(".para").forEach(function(p){ ioBg.observe(p); });
+  // 果树屏进入时开始生长动画
+  var ioTree = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ tree.start(); ioTree.unobserve(en.target); }
+    });
+  }, { threshold: 0.35 });
+  ioTree.observe($("s3"));
+  // 序章粒子屏滚出视口后暂停渲染省电
+  var ioS1 = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ cosmos.visible = en.isIntersecting; });
+  }, { threshold: 0.05 });
+  ioS1.observe($("s1"));
+}
+/* ================= 第三屏：分形果树 ================= */
+var tree = {
+  cv: null, ctx: null, started: false, t0: 0, done: false,
+  branches: [], fruits: [], quoteEl: null, raf: null,
+  init: function(){
+    this.cv = $("treeCv");
+    this.ctx = this.cv.getContext("2d");
+    this.quoteEl = $("fruitQuote");
+    this.resize();
+    var self = this;
+    window.addEventListener("resize", function(){ self.resize(); if (self.done) self.draw(1); });
+    // 点击画布：命中果实则掉落并展开一句话
+    this.cv.addEventListener("click", function(e){
+      var rect = self.cv.getBoundingClientRect();
+      self.pick(e.clientX - rect.left, e.clientY - rect.top);
+    });
+  },
+  resize: function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var r = this.cv.getBoundingClientRect();
+    this.cv.width = r.width * dpr; this.cv.height = r.height * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.w = r.width; this.h = r.height;
+  },
+  // 生成所有枝条数据（递归分形；进度=枝条深度的函数）
+  genTree: function(){
+    this.branches = []; this.fruits = [];
+    var w = this.w, h = this.h;
+    var self = this;
+    function grow(x, y, ang, len, wid, depth, tBirth){
+      if (depth > 7 || len < 6) {
+        // 末端挂果实（约半数末梢结果，金色光点）
+        if (Math.random() < 0.5) self.fruits.push({ x: x, y: y, r: 3 + Math.random() * 2.2, born: tBirth, picked: false, fall: null });
+        return;
+      }
+      var x2 = x + Math.cos(ang) * len;
+      var y2 = y + Math.sin(ang) * len;
+      self.branches.push({ x1: x, y1: y, x2: x2, y2: y2, wid: wid, born: tBirth });
+      var spread = 0.42 + Math.random() * 0.2;
+      var n = (depth < 2) ? 2 : (Math.random() < 0.85 ? 2 : 3);
+      for (var i = 0; i < n; i++){
+        var off = (i - (n - 1) / 2) * spread;
+        grow(x2, y2, ang + off + (Math.random() - 0.5) * 0.18, len * (0.68 + Math.random() * 0.1), wid * 0.68, depth + 1, tBirth + 1);
+      }
+    }
+    grow(w / 2, h * 0.96, -Math.PI / 2, h * 0.23, Math.max(w, 200) * 0.022, 0, 0);
+  },
+  // 进入视口时调用：3 秒长完全树
+  start: function(){
+    if (this.started) return;
+    this.started = true;
+    this.genTree();
+    var self = this;
+    var GROW_MS = 3000;
+    this.t0 = performance.now();
+    function frame(now){
+      var t = Math.min((now - self.t0) / GROW_MS, 1);
+      self.draw(t);
+      if (t < 1){ self.raf = requestAnimationFrame(frame); }
+      else { self.done = true; }
+    }
+    this.raf = requestAnimationFrame(frame);
+    // 果实微光动画（长成后持续闪烁）
+    (function glow(){
+      if (self.done) self.draw(1);
+      self.glowRaf = requestAnimationFrame(glow);
+    })();
+  },
+  // 绘制：t∈[0,1] 生长进度。born=枝条出生序（按深度），长度按进度截断
+  draw: function(t){
+    var ctx = this.ctx;
+    ctx.clearRect(0, 0, this.w, this.h);
+    var glow = 0.5 + 0.5 * Math.sin(performance.now() * 0.003); // 呼吸微光
+    // 枝条：每根枝条在总进度里有自己的出生窗口
+    var maxBorn = 8;
+    for (var i = 0; i < this.branches.length; i++){
+      var b = this.branches[i];
+      var bt = (t * (maxBorn + 1)) - b.born; // 该枝条自己的生长进度
+      if (bt <= 0) continue;
+      var k = Math.min(bt, 1);
+      var x2 = b.x1 + (b.x2 - b.x1) * k;
+      var y2 = b.y1 + (b.y2 - b.y1) * k;
+      ctx.beginPath();
+      ctx.strokeStyle = "rgba(212,175,55," + (0.25 + 0.5 * k) + ")";
+      ctx.lineWidth = Math.max(b.wid * k, 0.6);
+      ctx.lineCap = "round";
+      ctx.moveTo(b.x1, b.y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+    // 果实：在末梢枝长成后出现，带微光
+    for (var f = 0; f < this.fruits.length; f++){
+      var fr = this.fruits[f];
+      var ft = (t * (maxBorn + 1)) - fr.born;
+      if (ft <= 0 || fr.picked) continue;
+      var fk = Math.min(ft, 1);
+      var tw = 0.55 + 0.45 * Math.sin(performance.now() * 0.004 + f * 1.7);
+      ctx.globalAlpha = fk * tw;
+      ctx.fillStyle = "#ffd97a";
+      ctx.shadowColor = "#d4af37"; ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(fr.x, fr.y, fr.r * fk, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    }
+  },
+  // 点击命中检测：距离果实中心 < r+14 判中
+  pick: function(x, y){
+    for (var i = this.fruits.length - 1; i >= 0; i--){
+      var fr = this.fruits[i];
+      if (fr.picked) continue;
+      var dx = x - fr.x, dy = y - fr.y;
+      if (dx * dx + dy * dy < Math.pow(fr.r + 14, 2)){
+        fr.picked = true;
+        this.dropFruit(fr);
+        return;
+      }
+    }
+  },
+  // 果实掉落动画 + 随机展开一条"尚未被实现的念头"
+  dropFruit: function(fr){
+    var self = this;
+    var quote = QUOTES[(Math.random() * QUOTES.length) | 0];
+    var startY = fr.y, y = startY, vy = 0;
+    (function fall(){
+      vy += 0.5; y += vy;
+      // 掉落轨迹画在 fx 层上：金色小粒子拖尾
+      fx.burst(fr.x, y, 2, ["#ffd97a", "#d4af37"], 0.6);
+      if (y < self.cv.getBoundingClientRect().height) requestAnimationFrame(fall);
+      else {
+        // 展开随机一句话
+        var el = self.quoteEl;
+        el.textContent = "「 " + quote + " 」";
+        el.classList.remove("show");
+        void el.offsetWidth; // 强制重排，重触发过渡
+        el.classList.add("show");
+      }
+    })();
+  }
+};
+
+/* ================= 第四屏：药丸选择 ================= */
+var pills = {
+  chosen: null, animating: false,
+  init: function(){
+    var self = this;
+    $("pillRed").addEventListener("click", function(e){ self.choose("red", e); });
+    $("pillBlue").addEventListener("click", function(e){ self.choose("blue", e); });
+    // 键盘可达性
+    $("pillRed").addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") self.choose("red", e); });
+    $("pillBlue").addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") self.choose("blue", e); });
+    $("goSignup").addEventListener("click", function(){ self.openSignup(); });
+  },
+  choose: function(mode, ev){
+    if (this.animating) return;
+    this.animating = true;
+    this.chosen = mode;
+    localStorage.setItem("rhein_pill", mode); // 存选择，回访问候用
+    var pillEl = $(mode === "red" ? "pillRed" : "pillBlue");
+    var rect = pillEl.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    // 1) 药丸放大飞向屏幕中心
+    pillEl.style.transition = "transform .55s cubic-bezier(.6,0,.8,.2), opacity .55s ease";
+    pillEl.style.transform = "translate(" + (window.innerWidth / 2 - cx) + "px," + (window.innerHeight / 2 - cy) + "px) scale(2.6)";
+    pillEl.style.opacity = "0.9";
+    // 另一颗变暗退场
+    var other = $(mode === "red" ? "pillBlue" : "pillRed");
+    other.parentNode.classList.add("dim");
+    // 2) 550ms 后炸开成粒子 + 全屏变色
+    var self = this;
+    setTimeout(function(){
+      pillEl.style.opacity = "0";
+      var colors = mode === "red" ? ["#ff6a5e", "#d92b1f", "#ffd0c8"] : ["#7db3ff", "#2160e0", "#cfe0ff"];
+      fx.burst(window.innerWidth / 2, window.innerHeight / 2, 90, colors, 4.5);
+      document.body.classList.add(mode === "red" ? "mode-red" : "mode-blue");
+      // 3) 浮现确认句 + 报名按钮
+      $("chosenMsg").textContent = mode === "red" ? RED_MSG : BLUE_MSG;
+      $("chosenBlock").classList.add("show");
+      setTimeout(function(){ self.animating = false; }, 400);
+    }, 550);
+  },
+  openSignup: function(){
+    // 进入第五屏（报名跳转）
+    $("s5").hidden = false;
+    var red = this.chosen === "red";
+    $("signupTitle").textContent = red ? "提交你的入境申请" : "登记你的观察者编号";
+    // 跳转链接统一引用 SIGNUP_URL 常量
+    $("signupLink").href = SIGNUP_URL;
+    $("copyLine").textContent = "如无法跳转，请复制链接到浏览器打开：" + SIGNUP_URL;
+    $("s5").scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+/* ================= 彩蛋：长按 3 秒烟花 ================= */
+function initFirework(){
+  var timer = null, sx = 0, sy = 0;
+  function start(e){
+    var t = e.touches ? e.touches[0] : e;
+    sx = t.clientX; sy = t.clientY;
+    timer = setTimeout(function(){
+      fx.burst(sx, sy, 70, ["#d4af37", "#6b4fa0", "#cfd6ff", "#ffd97a"], 3.6);
+    }, 3000);
+  }
+  function cancel(){ if (timer){ clearTimeout(timer); timer = null; } }
+  // 只在非按钮/药丸/画布区域触发，避免干扰主交互
+  document.body.addEventListener("touchstart", function(e){
+    if (e.target.closest && e.target.closest("button, a, .pill, canvas")) return;
+    start(e);
+  }, { passive: true });
+  document.body.addEventListener("touchend", cancel);
+  document.body.addEventListener("touchmove", cancel);
+  document.body.addEventListener("mousedown", function(e){
+    if (e.target.closest && e.target.closest("button, a, .pill, canvas")) return;
+    start(e);
+  });
+  document.body.addEventListener("mouseup", cancel);
+}
+
+/* ================= 回访问候（localStorage） ================= */
+function initWelcomeBack(){
+  var saved = localStorage.getItem("rhein_pill");
+  if (!saved) return;
+  var el = $("welcomeBack");
+  el.textContent = saved === "red" ? "欢迎回来，造物者" : "欢迎回来，围观者";
+  el.classList.add("back"); el.classList.add("show");
+  setTimeout(function(){ el.classList.remove("show"); }, 6000); // 6 秒后隐去
+}
+
+/* ================= 启动 ================= */
+function boot(){
+  fx.init(); cosmos.init(); tree.init(); pills.init();
+  initReveals(); initFirework(); initWelcomeBack();
+  typer.start($("typeline"), TYPE_TEXT);
+}
+// DOM 就绪即启动（脚本位于 body 末尾，元素已就位）
+boot();
+
+</script>
+</body>
+</html>
