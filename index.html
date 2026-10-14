@@ -221,7 +221,7 @@ em.en{font-family:var(--serif);font-style:italic}
       <div id="chosenBlock">
         <p id="chosenMsg"></p>
         <button class="btn" id="goSignup">前往报名</button>
-        <p><button id="rechoose" class="ghost-btn">↺ 选错了？重新选择！但我劝你最好不要点这里...</button></p>
+        <p><button id="rechoose" class="ghost-btn">↺ 选错了？重新选择</button></p>
       </div>
     </div>
     <div class="foot"><span class="l">两颗药丸 · 入口特辑</span><span class="r">The Choice</span></div>
@@ -535,7 +535,8 @@ var cosmos = {
   }
 };
 
-/* ================= 果树（墨线分形 · 纸面印刷感） ================= */
+/* ================= 果树（抹茶绿 · 纸面印刷感） ================= */
+var MATCHA = { dark: "94,128,84", deep: "72,104,64", mid: "122,154,109", light: "158,182,141" };
 var tree = {
   cv: null, ctx: null, started: false, t0: 0, done: false,
   branches: [], fruits: [], quoteEl: null,
@@ -674,7 +675,7 @@ var tree = {
     ctx.fillStyle = "rgba(" + ic + ",.5)";
     ctx.textAlign = "left";
     ctx.fillText("EARTH · LINE", this.w * 0.04, groundY + 16);
-    // —— 根系：与主干同期生长（born=0），细而淡 ——
+    // —— 根系（抹茶深色）：与主干同期生长（born=0），细而淡 ——
     if (this.roots){
       for (var rt = 0; rt < this.roots.length; rt++){
         var ro = this.roots[rt];
@@ -683,7 +684,7 @@ var tree = {
         var rrx = ro.cx + (ro.x2 - ro.cx) * rk, rry = ro.cy + (ro.y2 - ro.cy) * rk;
         var rex = rqx + (rrx - rqx) * rk, rey = rqy + (rry - rqy) * rk;
         ctx.beginPath();
-        ctx.strokeStyle = "rgba(" + ic + ",.55)";
+        ctx.strokeStyle = "rgba(" + MATCHA.deep + ",.6)";
         ctx.lineWidth = Math.max(ro.wid * rk, 0.5);
         ctx.lineCap = "round";
         ctx.moveTo(ro.x1, ro.y1);
@@ -691,7 +692,7 @@ var tree = {
         ctx.stroke();
       }
     }
-    // —— 树冠枝条 ——
+    // —— 树冠枝条（抹茶绿：主干深、末梢浅，同色系四档渐变）——
     for (var i = 0; i < this.branches.length; i++){
       var b = this.branches[i];
       var bt = (t * (maxBorn + 1)) - b.born;
@@ -701,15 +702,17 @@ var tree = {
       var qx = b.x1 + (b.cx - b.x1) * k, qy = b.y1 + (b.cy - b.y1) * k;
       var rx2 = b.cx + (b.x2 - b.cx) * k, ry2 = b.cy + (b.y2 - b.cy) * k;
       var ex = qx + (rx2 - qx) * k, ey = qy + (ry2 - qy) * k;
+      // 按 born 深度取色：根干最深 → 末梢最浅（同一抹茶色系）
+      var tone = b.born <= 1 ? MATCHA.deep : (b.born <= 3 ? MATCHA.dark : (b.born <= 6 ? MATCHA.mid : MATCHA.light));
       ctx.beginPath();
-      ctx.strokeStyle = "rgba(" + ic + "," + (0.35 + 0.55 * k) + ")";
+      ctx.strokeStyle = "rgba(" + tone + "," + (0.4 + 0.5 * k) + ")";
       ctx.lineWidth = Math.max(b.wid * k, 0.6);
       ctx.lineCap = "round";
       ctx.moveTo(b.x1, b.y1);
       ctx.quadraticCurveTo(qx, qy, ex, ey);
       ctx.stroke();
     }
-    // 果实：墨色圆点+细环（印刷符号感），可点击
+    // 果实：抹茶深绿圆点+细环（印刷符号感），可点击
     for (var f = 0; f < this.fruits.length; f++){
       var fr = this.fruits[f];
       var ft = (t * (maxBorn + 1)) - fr.born;
@@ -717,13 +720,13 @@ var tree = {
       var fk = Math.min(ft, 1);
       var tw = 0.5 + 0.5 * Math.sin(performance.now() * 0.004 + f * 1.7);
       ctx.globalAlpha = fk * (0.65 + 0.35 * tw);
-      ctx.fillStyle = "rgb(" + ic + ")";
+      ctx.fillStyle = "rgb(" + MATCHA.dark + ")";
       ctx.beginPath();
       ctx.arc(fr.x, fr.y, fr.r * fk, 0, Math.PI * 2);
       ctx.fill();
       // 呼吸细环
-      ctx.globalAlpha = fk * 0.3 * tw;
-      ctx.strokeStyle = "rgb(" + ic + ")";
+      ctx.globalAlpha = fk * 0.35 * tw;
+      ctx.strokeStyle = "rgb(" + MATCHA.mid + ")";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(fr.x, fr.y, fr.r * fk + 4 + 2 * tw, 0, Math.PI * 2);
@@ -747,10 +750,9 @@ var tree = {
     var self = this;
     var quote = QUOTES[(Math.random() * QUOTES.length) | 0];
     var y = fr.y, vy = 0;
-    var ic = inkColor();
     (function fall(){
       vy += 0.5; y += vy;
-      fx.burst(fr.x, y, 2, ["rgb(" + ic + ")"], 0.6);
+      fx.burst(fr.x, y, 2, ["rgb(" + MATCHA.dark + ")", "rgb(" + MATCHA.mid + ")"], 0.6);
       if (y < self.cv.getBoundingClientRect().height) requestAnimationFrame(fall);
       else {
         if (!self._picked){ self._picked = true; var h = $("treeHint"); if (h) h.style.display = "none"; }
